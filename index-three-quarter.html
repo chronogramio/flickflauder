@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flickflauder - Custom software development, data analysis, and digital consulting services. Transform your business with expert technical solutions.">
+    <meta name="keywords" content="custom software development, data analysis, web development, consulting, digital solutions">
+    <meta name="author" content="Flickflauder">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flickflauder.com/">
+    <meta property="og:title" content="Flickflauder - Custom Software Development & Data Analysis">
+    <meta property="og:description" content="Expert software development, data analysis, and digital consulting services to transform your business.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
+
+    <title>Flickflauder - Three-Quarter View Butterfly</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Three-quarter view specific animations */
+        @keyframes farWingFlap {
+            0%, 100% {
+                transform: scaleX(0.8) scaleY(1);
+                opacity: 0.85;
+            }
+            50% {
+                transform: scaleX(0.65) scaleY(0.9);
+                opacity: 0.75;
+            }
+        }
+
+        @keyframes nearWingFlap {
+            0%, 100% {
+                transform: scaleX(1.2) scaleY(1);
+                opacity: 0.95;
+            }
+            50% {
+                transform: scaleX(0.95) scaleY(0.9);
+                opacity: 0.9;
+            }
+        }
+
+        .wing-far {
+            animation: farWingFlap 0.15s ease-in-out infinite;
+        }
+
+        .wing-near {
+            animation: nearWingFlap 0.15s ease-in-out infinite;
+        }
+
+        .butterfly.flying .wing-far {
+            animation: farWingFlap 0.12s ease-in-out infinite;
+        }
+
+        .butterfly.flying .wing-near {
+            animation: nearWingFlap 0.12s ease-in-out infinite;
+        }
+    </style>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Flickflauder",
+      "description": "Custom software development, data analysis, and digital consulting services",
+      "url": "https://flickflauder.com",
+      "serviceType": ["Software Development", "Data Analysis", "Digital Consulting"],
+      "areaServed": "Worldwide"
+    }
+    </script>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1 class="logo-title">
+                fl<span class="i-wrapper">i<svg id="butterfly" class="butterfly" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Gradient for depth -->
+                        <radialGradient id="bodyGradient">
+                            <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#4a4a4a;stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
+                    <g class="butterfly-body">
+                        <!-- Far wing (back left, smaller scale) -->
+                        <ellipse class="wing wing-far" cx="38" cy="42" rx="14" ry="22" transform="rotate(-35 38 42)"/>
+                        <ellipse class="wing wing-far" cx="40" cy="58" rx="9" ry="15" transform="rotate(-25 40 58)"/>
+
+                        <!-- Body (3/4 view - slightly rotated) -->
+                        <ellipse fill="url(#bodyGradient)" cx="50" cy="50" rx="4.5" ry="22" transform="rotate(-5 50 50)"/>
+
+                        <!-- Near wing (front right, larger scale) -->
+                        <ellipse class="wing wing-near" cx="60" cy="38" rx="20" ry="28" transform="rotate(25 60 38)"/>
+                        <ellipse class="wing wing-near" cx="58" cy="60" rx="14" ry="20" transform="rotate(18 58 60)"/>
+
+                        <!-- Head -->
+                        <circle fill="url(#bodyGradient)" cx="49" cy="32" r="4.5"/>
+
+                        <!-- Antennae (both visible, different angles) -->
+                        <path class="antenna" d="M 48 29 Q 44 22 41 16" stroke-width="1.5" fill="none"/>
+                        <path class="antenna" d="M 51 29 Q 54 22 57 16" stroke-width="1.5" fill="none"/>
+                    </g>
+                </svg></span>ckflauder
+            </h1>
+            <p class="tagline">Transforming ideas into digital reality - Three-Quarter View</p>
+            <div class="cta-buttons">
+                <a href="#services" class="btn btn-primary">Our Services</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>↓</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3>Custom Software Development</h3>
+                    <p>Tailored software solutions built to meet your unique business needs. From web applications to enterprise systems, we craft scalable and maintainable code.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Data Analysis</h3>
+                    <p>Transform raw data into actionable insights. We help you make data-driven decisions through advanced analytics, visualization, and reporting.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>Digital Consulting</h3>
+                    <p>Strategic guidance for your digital transformation journey. We help optimize processes, select the right technologies, and plan for sustainable growth.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>Technical Solutions</h3>
+                    <p>API development, system integration, automation, and more. We solve complex technical challenges with elegant, efficient solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Flickflauder</h2>
+            <div class="about-content">
+                <p class="lead">Like a butterfly's transformation, we help your business evolve through technology.</p>
+                <p>Flickflauder combines technical expertise with creative problem-solving to deliver solutions that make a real difference. Whether you're a startup finding your wings or an established company ready to soar, we're here to help you navigate the digital landscape.</p>
+                <p>We believe in clean code, clear communication, and lasting partnerships. Every project is an opportunity to create something remarkable together.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Let's Work Together</h2>
+            <p class="contact-intro">Ready to start your next project? Get in touch and let's discuss how we can help.</p>
+
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <a href="mailto:hello@flickflauder.com">hello@flickflauder.com</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <h3>Let's Talk</h3>
+                    <p>Schedule a free consultation to discuss your project needs and how we can help.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Flickflauder. All rights reserved.</p>
+            <p class="footer-tagline">Crafted with care</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
