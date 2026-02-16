@@ -114,8 +114,8 @@
 
 /* WINGS */
 .wing-set {
-  width: min(110px, 15vw);
-  height: min(130px, 18vh);
+  width: max(90px, min(110px, 15vw));
+  height: max(110px, min(130px, 18vh));
   transform-style: preserve-3d;
 }
 
