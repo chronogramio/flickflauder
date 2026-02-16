@@ -6,8 +6,6 @@
 
 import Butterfly from '../components/animations/Butterfly.astro';
 import FlowerField from '../components/animations/FlowerField.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
 
 interface Props {
   title: string;
@@ -48,11 +46,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>"
-    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
 
     <!-- Font Awesome -->
     <link
@@ -94,11 +89,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Page content wrapper (scrollable) -->
     <div id="page-content">
-      <Header lang={lang} />
       <main>
         <slot />
       </main>
-      <Footer lang={lang} />
     </div>
   </body>
 </html>
