@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "services": "Leistungen",
+    "about": "Über mich",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "title": "flickflauder",
+    "tagline": "Ideen in digitale Realität verwandeln",
+    "cta": {
+      "services": "Unsere Leistungen",
+      "contact": "Kontakt aufnehmen"
+    }
+  },
+  "services": {
+    "title": "Unsere Leistungen",
+    "software": {
+      "title": "Individuelle Softwareentwicklung",
+      "description": "Maßgeschneiderte Softwarelösungen für Ihre individuellen Geschäftsanforderungen. Von Webanwendungen bis zu Unternehmenssystemen entwickeln wir skalierbaren und wartbaren Code."
+    },
+    "data": {
+      "title": "Datenanalyse",
+      "description": "Verwandeln Sie Rohdaten in umsetzbare Erkenntnisse. Wir unterstützen Sie bei datenbasierten Entscheidungen durch fortgeschrittene Analysen, Visualisierung und Reporting."
+    },
+    "consulting": {
+      "title": "Digitale Beratung",
+      "description": "Strategische Begleitung auf Ihrem Weg der digitalen Transformation. Wir helfen Ihnen, Prozesse zu optimieren, die richtigen Technologien auszuwählen und nachhaltiges Wachstum zu planen."
+    },
+    "technical": {
+      "title": "Technische Lösungen",
+      "description": "API-Entwicklung, Systemintegration, Automatisierung und mehr. Wir lösen komplexe technische Herausforderungen mit eleganten, effizienten Lösungen."
+    }
+  },
+  "about": {
+    "title": "Über Flickflauder",
+    "greeting": "Hi, ich bin [Ihr Name]",
+    "lead": "Softwareentwicklerin und Datenanalystin mit einer Leidenschaft für digitale Transformation.",
+    "story": {
+      "title": "Meine Geschichte",
+      "placeholder": "[Hier kommt Ihre persönliche Geschichte - wie Sie zur Softwareentwicklung gekommen sind]"
+    },
+    "approach": {
+      "title": "Mein Ansatz",
+      "text": "Ich verbinde technisches Fachwissen mit kreativer Problemlösung, um Lösungen zu liefern, die einen echten Unterschied machen. Ob Sie ein Start-up sind, das seine Flügel entdeckt, oder ein etabliertes Unternehmen, das bereit ist aufzusteigen – ich begleite Sie durch die digitale Landschaft."
+    },
+    "values": {
+      "title": "Meine Werte",
+      "quality": "Sauberer Code und technische Exzellenz",
+      "communication": "Klare, transparente Kommunikation",
+      "learning": "Kontinuierliches Lernen und Wachstum"
+    },
+    "section": {
+      "lead": "Wie die Verwandlung eines Schmetterlings helfe ich Ihrem Unternehmen, sich durch Technologie weiterzuentwickeln.",
+      "text1": "Ich verbinde technisches Fachwissen mit kreativer Problemlösung, um Lösungen zu liefern, die einen echten Unterschied machen. Ob Sie ein Start-up sind, das seine Flügel entdeckt, oder ein etabliertes Unternehmen, das bereit ist aufzusteigen – ich begleite Sie durch die digitale Landschaft.",
+      "text2": "Ich glaube an sauberen Code, klare Kommunikation und dauerhafte Partnerschaften. Jedes Projekt ist eine Gelegenheit, gemeinsam etwas Bemerkenswertes zu schaffen."
+    }
+  },
+  "contact": {
+    "title": "Lassen Sie uns zusammenarbeiten",
+    "intro": "Bereit, Ihr nächstes Projekt zu starten? Nehmen Sie Kontakt auf und lassen Sie uns besprechen, wie wir helfen können.",
+    "email": {
+      "title": "E-Mail",
+      "address": "hello@flickflauder.com"
+    },
+    "meeting": {
+      "title": "Gespräch vereinbaren",
+      "description": "Vereinbaren Sie ein kostenloses Beratungsgespräch, um Ihre Projektanforderungen zu besprechen und wie wir helfen können."
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "viewProject": "Projekt ansehen",
+    "technologies": "Technologien"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Weiterlesen",
+    "publishedOn": "Veröffentlicht am"
+  },
+  "footer": {
+    "copyright": "Alle Rechte vorbehalten",
+    "tagline": "Mit Sorgfalt gestaltet"
+  }
+}

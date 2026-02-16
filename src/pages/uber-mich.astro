@@ -1,0 +1,202 @@
+---
+/**
+ * German About Me Page
+ * Personal story and values (uses "I" voice, not "we")
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import { t } from '../utils/i18n';
+
+const lang = 'de';
+const title = 'Über mich - Flickflauder';
+const description =
+  'Softwareentwicklerin und Datenanalystin mit einer Leidenschaft für digitale Transformation.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  butterflySize="medium"
+  butterflyProminent={false}
+  flowerIntensity="medium"
+>
+  <!-- Hero About Section -->
+  <section class="hero-about">
+    <div class="container">
+      <img
+        src="/images/paroos-photo.jpg"
+        alt="Portrait"
+        class="personal-photo"
+        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 200%27%3E%3Crect width=%27200%27 height=%27200%27 fill=%27%23b8a4d4%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 font-size=%2780%27%3E🦋%3C/text%3E%3C/svg%3E'"
+      />
+      <h1>{t(lang, 'about.greeting')}</h1>
+      <p class="lead">{t(lang, 'about.lead')}</p>
+    </div>
+  </section>
+
+  <!-- My Story Section -->
+  <section class="my-story">
+    <div class="container">
+      <SectionHeading>{t(lang, 'about.story.title')}</SectionHeading>
+      <div class="story-content">
+        <p class="placeholder-text">
+          {t(lang, 'about.story.placeholder')}
+        </p>
+        <p class="placeholder-text">
+          [Ihre Reise als Entwicklerin - wie Sie zur Softwareentwicklung gekommen
+          sind, welche Erfahrungen Sie geprägt haben]
+        </p>
+        <p class="placeholder-text">
+          [Was Sie an der digitalen Transformation fasziniert und warum Sie
+          Flickflauder gegründet haben]
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- My Approach Section -->
+  <section class="my-approach">
+    <div class="container">
+      <SectionHeading>{t(lang, 'about.approach.title')}</SectionHeading>
+      <div class="approach-content">
+        <p>{t(lang, 'about.approach.text')}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- My Values Section -->
+  <section class="my-values">
+    <div class="container">
+      <SectionHeading>{t(lang, 'about.values.title')}</SectionHeading>
+      <ul class="values-list">
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>{t(lang, 'about.values.quality')}</span>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>{t(lang, 'about.values.communication')}</span>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>{t(lang, 'about.values.learning')}</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-about {
+    padding: 5rem 0 3rem;
+    text-align: center;
+    background: white;
+  }
+
+  .personal-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 4px solid var(--lavender);
+    box-shadow: var(--shadow-lg);
+    margin: 2rem auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .hero-about h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .hero-about .lead {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .my-story,
+  .my-approach,
+  .my-values {
+    padding: 4rem 0;
+  }
+
+  .my-story {
+    background: linear-gradient(135deg, #f5f0fa 0%, #fef5f1 100%);
+  }
+
+  .my-approach {
+    background: white;
+  }
+
+  .my-values {
+    background: var(--gradient-primary);
+    color: white;
+  }
+
+  .my-values h2 {
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .story-content,
+  .approach-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .story-content p,
+  .approach-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+  }
+
+  .placeholder-text {
+    background: rgba(184, 164, 212, 0.1);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--lavender);
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  .values-list {
+    list-style: none;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0;
+  }
+
+  .values-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  .values-list i {
+    font-size: 1.5rem;
+    color: var(--mint);
+  }
+
+  @media (max-width: 768px) {
+    .personal-photo {
+      width: 150px;
+      height: 150px;
+    }
+
+    .values-list li {
+      font-size: 1rem;
+    }
+  }
+</style>

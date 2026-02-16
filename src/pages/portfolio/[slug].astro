@@ -1,0 +1,235 @@
+---
+/**
+ * German Dynamic Portfolio Project Page
+ * Individual project detail page
+ */
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../utils/i18n';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio');
+  return projects
+    .filter((project) => project.data.lang === 'de')
+    .map((project) => {
+      // Remove 'de/' prefix from slug
+      const slug = project.slug.replace(/^de\//, '');
+      return {
+        params: { slug },
+        props: { project },
+      };
+    });
+}
+
+interface Props {
+  project: CollectionEntry<'portfolio'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+const lang = 'de';
+const title = `${project.data.title} - Portfolio - Flickflauder`;
+const description = project.data.description;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  butterflySize="small"
+  butterflyProminent={false}
+  flowerIntensity="low"
+>
+  <article class="project-detail">
+    <div class="container">
+      <!-- Project Header -->
+      <header class="project-header">
+        <h1>{project.data.title}</h1>
+        <p class="project-description">{project.data.description}</p>
+
+        <!-- Technologies -->
+        <div class="technologies">
+          <strong>{t(lang, 'portfolio.technologies')}:</strong>
+          {
+            project.data.technologies.map((tech) => (
+              <span class="tech-tag">{tech}</span>
+            ))
+          }
+        </div>
+
+        <!-- Links -->
+        <div class="project-links">
+          {project.data.liveUrl && (
+            <a
+              href={project.data.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+            >
+              <i class="fas fa-external-link-alt" /> Live Demo
+            </a>
+          )}
+          {project.data.githubUrl && (
+            <a
+              href={project.data.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+            >
+              <i class="fab fa-github" /> GitHub
+            </a>
+          )}
+        </div>
+      </header>
+
+      <!-- Project Content -->
+      <div class="project-content prose">
+        <Content />
+      </div>
+
+      <!-- Back to Portfolio -->
+      <div class="back-link">
+        <a href="/portfolio">← Zurück zum Portfolio</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-detail {
+    padding: 5rem 0;
+    background: white;
+  }
+
+  .project-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .project-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .project-description {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .technologies strong {
+    margin-right: 0.5rem;
+    color: var(--text-secondary);
+  }
+
+  .tech-tag {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(184, 164, 212, 0.1);
+    border: 1px solid var(--lavender);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .project-links .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .project-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  .project-content :global(h2) {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .project-content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .project-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .project-content :global(ul),
+  .project-content :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+
+  .project-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 2px solid #f0f0f0;
+  }
+
+  .back-link a {
+    color: var(--lavender);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color var(--transition-normal);
+  }
+
+  .back-link a:hover {
+    color: var(--peach);
+  }
+
+  @media (max-width: 768px) {
+    .project-links {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .project-links .btn {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+</style>

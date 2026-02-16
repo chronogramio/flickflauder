@@ -1,0 +1,23 @@
+---
+/**
+ * German Contact Page
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/sections/ContactSection.astro';
+
+const lang = 'de';
+const title = 'Kontakt - Flickflauder';
+const description = 'Kontaktieren Sie mich für Ihre Projektanfragen und Fragen.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  butterflySize="medium"
+  butterflyProminent={false}
+  flowerIntensity="medium"
+>
+  <ContactSection lang={lang} />
+</BaseLayout>

@@ -1,0 +1,83 @@
+---
+/**
+ * LanguagePicker Component
+ * DE/EN language switcher
+ */
+
+interface Props {
+  lang: 'de' | 'en';
+  currentPath: string;
+}
+
+const { lang, currentPath } = Astro.props;
+
+// Convert between German and English URLs
+const getAlternateUrl = (currentLang: string, path: string) => {
+  if (currentLang === 'de') {
+    // German to English
+    if (path === '/') return '/en';
+    if (path === '/dienstleistungen') return '/en/services';
+    if (path === '/uber-mich') return '/en/about';
+    if (path === '/portfolio') return '/en/portfolio';
+    if (path === '/blog') return '/en/blog';
+    if (path === '/kontakt') return '/en/contact';
+    if (path.startsWith('/portfolio/')) return path.replace('/portfolio/', '/en/portfolio/');
+    if (path.startsWith('/blog/')) return path.replace('/blog/', '/en/blog/');
+    return '/en' + path;
+  } else {
+    // English to German
+    if (path === '/en' || path === '/en/') return '/';
+    if (path === '/en/services') return '/dienstleistungen';
+    if (path === '/en/about') return '/uber-mich';
+    if (path === '/en/portfolio') return '/portfolio';
+    if (path === '/en/blog') return '/blog';
+    if (path === '/en/contact') return '/kontakt';
+    if (path.startsWith('/en/portfolio/')) return path.replace('/en/portfolio/', '/portfolio/');
+    if (path.startsWith('/en/blog/')) return path.replace('/en/blog/', '/blog/');
+    return path.replace('/en', '');
+  }
+};
+
+const alternateUrl = getAlternateUrl(lang, currentPath);
+---
+
+<div class="language-picker">
+  <a
+    href={alternateUrl}
+    class="lang-link"
+    aria-label={lang === 'de' ? 'Switch to English' : 'Auf Deutsch wechseln'}
+  >
+    <i class="fas fa-globe"></i>
+    <span>{lang === 'de' ? 'EN' : 'DE'}</span>
+  </a>
+</div>
+
+<style>
+  .language-picker {
+    display: inline-block;
+  }
+
+  .lang-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all var(--transition-normal);
+    box-shadow: 0 2px 8px rgba(184, 164, 212, 0.2);
+  }
+
+  .lang-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(184, 164, 212, 0.3);
+  }
+
+  .lang-link i {
+    font-size: 1rem;
+  }
+</style>

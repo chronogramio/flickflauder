@@ -1,0 +1,22 @@
+---
+/**
+ * ContactCard Component
+ * Individual contact method card
+ */
+
+interface Props {
+  icon: string;
+  title: string;
+  class?: string;
+}
+
+const { icon, title, class: className = '' } = Astro.props;
+---
+
+<div class={`contact-card ${className}`}>
+  <div class="contact-icon">
+    <i class={icon}></i>
+  </div>
+  <h3>{title}</h3>
+  <slot />
+</div>

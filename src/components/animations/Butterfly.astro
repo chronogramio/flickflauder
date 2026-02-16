@@ -1,0 +1,84 @@
+---
+/**
+ * Butterfly Component
+ * Core brand identity - 3D CSS butterfly animation
+ * Extracted from original design with size and prominence variants
+ */
+
+interface Props {
+  size?: 'small' | 'medium' | 'large';
+  prominent?: boolean;
+  class?: string;
+}
+
+const { size = 'medium', prominent = false, class: className = '' } = Astro.props;
+const prominenceClass = prominent ? 'prominent' : 'subtle';
+---
+
+<div class={`butterfly-chase ${size} ${prominenceClass} ${className}`}>
+  <div class="butterfly-orientation">
+    <div class="butterfly-assembly">
+      <!-- Left Wing -->
+      <div class="wing-set left">
+        <svg viewBox="0 0 100 120">
+          <defs>
+            <linearGradient id="grad-pastel">
+              <stop offset="0%" stop-color="#b8a4d4" />
+              <stop offset="50%" stop-color="#ffc5a8" />
+              <stop offset="100%" stop-color="#ffb3ba" />
+            </linearGradient>
+          </defs>
+          <!-- Upper wing -->
+          <path
+            class="wing-outline"
+            d="M100,40 C70,0 10,5 15,45 C20,75 90,65 100,40 Z"
+          />
+          <!-- Lower wing -->
+          <path
+            class="wing-outline"
+            d="M100,45 C100,45 80,100 70,110 C50,100 20,75 25,50 C30,35 80,40 100,45 Z"
+          />
+          <!-- Wing veins -->
+          <line class="wing-vein" x1="100" y1="40" x2="30" y2="45" />
+          <line class="wing-vein" x1="100" y1="45" x2="35" y2="70" />
+          <line class="wing-vein" x1="90" y1="50" x2="70" y2="105" />
+          <!-- Wing spots -->
+          <circle class="wing-spot" cx="60" cy="35" r="3" />
+          <circle class="wing-spot" cx="45" cy="60" r="2.5" />
+          <circle class="wing-spot" cx="65" cy="80" r="2" />
+        </svg>
+      </div>
+
+      <!-- Body -->
+      <div class="body-3d">
+        <div class="segment head"></div>
+        <div class="segment thorax"></div>
+        <div class="segment abdomen"></div>
+      </div>
+
+      <!-- Right Wing -->
+      <div class="wing-set right">
+        <svg viewBox="0 0 100 120">
+          <!-- Upper wing -->
+          <path
+            class="wing-outline"
+            d="M0,40 C30,0 90,5 85,45 C80,75 10,65 0,40 Z"
+          />
+          <!-- Lower wing -->
+          <path
+            class="wing-outline"
+            d="M0,45 C0,45 20,100 30,110 C50,100 80,75 75,50 C70,35 20,40 0,45 Z"
+          />
+          <!-- Wing veins -->
+          <line class="wing-vein" x1="0" y1="40" x2="70" y2="45" />
+          <line class="wing-vein" x1="0" y1="45" x2="65" y2="70" />
+          <line class="wing-vein" x1="10" y1="50" x2="30" y2="105" />
+          <!-- Wing spots -->
+          <circle class="wing-spot" cx="40" cy="35" r="3" />
+          <circle class="wing-spot" cx="55" cy="60" r="2.5" />
+          <circle class="wing-spot" cx="35" cy="80" r="2" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>

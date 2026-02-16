@@ -1,0 +1,34 @@
+---
+/**
+ * Card Component
+ * Base card component for consistent styling
+ */
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={`card ${className}`}>
+  <slot />
+</div>
+
+<style>
+  .card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-normal),
+      box-shadow var(--transition-normal);
+    border: 2px solid #f0f0f0;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--lavender);
+  }
+</style>

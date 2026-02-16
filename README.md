@@ -1,116 +1,259 @@
-# Flickflauder - Landing Page
+# Flickflauder - Astro Website
 
-A beautiful, SEO-optimized landing page for Flickflauder custom software development services.
+Modern, bilingual (German/English) website built with Astro, featuring a signature 3D butterfly animation and comprehensive portfolio and blog sections.
 
-## Features
+## 🦋 Features
 
-- **Animated Butterfly**: The dot on the "i" in "flickflauder" is replaced by an animated butterfly that takes flight after 2.5 seconds
-- **Calm Blue Theme**: Sky-inspired gradient backgrounds creating a peaceful, professional atmosphere
-- **Fully Responsive**: Works perfectly on all devices (mobile, tablet, desktop)
-- **SEO Optimized**:
-  - Semantic HTML5
-  - Meta tags for search engines and social media
-  - Structured data (JSON-LD)
-  - Fast loading times
-- **Smooth Animations**: Scroll effects, hover states, and subtle parallax
-- **Accessibility**: Respects prefers-reduced-motion for users who need it
+- **Bilingual Support**: Full German (default) and English versions of all pages
+- **Signature 3D Butterfly Animation**: Pure CSS 3D butterfly with customizable size and prominence
+- **Animated Flower Field**: Dynamic background animation with 25 procedurally generated flowers
+- **Content Collections**: Blog posts and portfolio projects with Markdown support
+- **Responsive Design**: Mobile-first design that works on all devices
+- **Accessibility**: Reduced motion support, semantic HTML, WCAG AA contrast ratios
+- **SEO Optimized**: Meta tags, Open Graph, structured data, sitemap generation
+- **Cloudflare Pages Ready**: Configured for deployment to Cloudflare Pages
 
-## Structure
+## 📁 Project Structure
 
 ```
 flickflauder/
-├── index.html      # Main HTML file with semantic structure
-├── styles.css      # All styling with responsive design
-├── script.js       # Interactive features and animations
-└── README.md       # This file
+├── src/
+│   ├── components/
+│   │   ├── animations/      # Butterfly & FlowerField components
+│   │   ├── layout/          # Header, Footer, LanguagePicker
+│   │   ├── sections/        # Hero, Services, Contact, etc.
+│   │   └── ui/              # Button, Card, SectionHeading
+│   ├── content/
+│   │   ├── blog/           # Blog posts (de/ and en/)
+│   │   └── portfolio/      # Portfolio projects (de/ and en/)
+│   ├── i18n/               # Translation files (de.json, en.json)
+│   ├── layouts/            # BaseLayout wrapper
+│   ├── pages/              # All pages (German & English)
+│   ├── styles/             # Global, animations, utilities CSS
+│   └── utils/              # i18n helper functions
+├── public/
+│   ├── images/             # Images and assets
+│   └── robots.txt          # SEO
+└── dist/                   # Build output (generated)
 ```
 
-## How to Use
+## 🚀 Getting Started
 
-### Local Development
+### Prerequisites
 
-1. Simply open `index.html` in any modern web browser
-2. Or use a local server:
-   ```bash
-   # Python 3
-   python -m http.server 8000
+- Node.js 18+ and npm
 
-   # Node.js (if you have http-server installed)
-   npx http-server
-   ```
-3. Visit `http://localhost:8000` in your browser
+### Installation
 
-### Deployment
-
-#### Option 1: Static Hosting (Recommended)
-Deploy to any static hosting service:
-
-- **Netlify**: Drag and drop the folder or connect to Git
-- **Vercel**: Import the project
-- **GitHub Pages**: Push to a repo and enable Pages
-- **Cloudflare Pages**: Connect and deploy
-
-#### Option 2: Traditional Web Hosting
-Upload all files to your web server via FTP/SFTP to the public_html or www directory.
-
-## Customization
-
-### Update Contact Information
-Edit `index.html` line 132:
-```html
-<a href="mailto:your-email@flickflauder.com">your-email@flickflauder.com</a>
+```bash
+npm install
 ```
 
-### Adjust Butterfly Animation Timing
-Edit `script.js` line 6 to change when the butterfly flies (default: 2500ms = 2.5 seconds):
-```javascript
-setTimeout(() => {
-    if (butterfly) {
-        butterfly.classList.add('flying');
-    }
-}, 2500); // Change this value
+### Development
+
+```bash
+npm run dev
 ```
 
-### Modify Colors
-Edit CSS variables in `styles.css` lines 9-17:
-```css
-:root {
-    --sky-light: #e3f2fd;
-    --sky-medium: #90caf9;
-    --sky-deep: #42a5f5;
-    --sky-dark: #1976d2;
-    /* ... */
-}
+Visit `http://localhost:4321` to see your site.
+
+### Build
+
+```bash
+npm run build
 ```
 
-### Add More Services
-Copy a service card in `index.html` (lines 77-101) and customize the content.
+### Preview Build
 
-## SEO Tips
+```bash
+npm run preview
+```
 
-1. **Update Meta Description**: Customize the description in `index.html` line 7 to match your specific services
-2. **Add Analytics**: Insert Google Analytics or similar tracking code before `</head>`
-3. **Create a sitemap.xml**: For better search engine indexing
-4. **Add a favicon**: Replace the emoji favicon with a custom design
-5. **Set up robots.txt**: Control search engine crawling
+## 🎨 Customization
 
-## Performance
+### Colors
 
-The site is optimized for fast loading:
-- No external dependencies
-- Minimal CSS and JavaScript
-- SVG graphics (scalable and lightweight)
-- Efficient animations
+The color palette is defined in `src/styles/global.css`:
 
-Typical load time: < 1 second
+- `--lavender`: #b8a4d4
+- `--peach`: #ffc5a8
+- `--mint`: #a8e6cf
+- `--coral`: #ffb3ba
 
-## Browser Support
+### Butterfly Animation
 
-- Chrome/Edge: ✅
-- Firefox: ✅
-- Safari: ✅
-- Mobile browsers: ✅
+The butterfly component accepts these props:
 
-## License
+- `size`: 'small' | 'medium' | 'large'
+- `prominent`: boolean (full animation vs subtle)
 
-All rights reserved © 2025 Flickflauder
+Usage:
+```astro
+<Butterfly size="large" prominent={true} />
+```
+
+### Translations
+
+Edit `src/i18n/de.json` and `src/i18n/en.json` to update translations.
+
+## 📝 Content Management
+
+### Adding Blog Posts
+
+Create a new Markdown file in:
+- `src/content/blog/de/` for German
+- `src/content/blog/en/` for English
+
+Frontmatter:
+```yaml
+---
+title: 'Post Title'
+description: 'Brief description'
+pubDate: 2025-02-16
+tags: ['Tag1', 'Tag2']
+lang: 'de'
+---
+```
+
+### Adding Portfolio Projects
+
+Create a new Markdown file in:
+- `src/content/portfolio/de/` for German
+- `src/content/portfolio/en/` for English
+
+Frontmatter:
+```yaml
+---
+title: 'Project Name'
+description: 'Brief description'
+thumbnail: '/images/project.jpg'
+technologies: ['React', 'Node.js']
+featured: true
+order: 1
+lang: 'de'
+---
+```
+
+## 🖼️ Personal Photo
+
+Add your photo to `/public/images/paroos-photo.jpg` (recommended: 400x400px, circular crop).
+
+The About pages currently show a placeholder butterfly emoji if the photo is not found.
+
+## 📄 Pages
+
+### German (Default)
+- `/` - Homepage
+- `/uber-mich` - About Me
+- `/dienstleistungen` - Services
+- `/portfolio` - Portfolio listing
+- `/portfolio/[slug]` - Individual projects
+- `/blog` - Blog listing
+- `/blog/[slug]` - Individual posts
+- `/kontakt` - Contact
+
+### English
+- `/en` - Homepage
+- `/en/about` - About Me
+- `/en/services` - Services
+- `/en/portfolio` - Portfolio listing
+- `/en/portfolio/[slug]` - Individual projects
+- `/en/blog` - Blog listing
+- `/en/blog/[slug]` - Individual posts
+- `/en/contact` - Contact
+
+## 🌐 Deployment to Cloudflare Pages
+
+### Option 1: GitHub Integration (Recommended)
+
+1. Push your code to GitHub
+2. Go to [Cloudflare Pages](https://pages.cloudflare.com/)
+3. Connect your GitHub repository
+4. Build settings:
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+5. Deploy!
+
+### Option 2: Wrangler CLI
+
+```bash
+npx wrangler pages deploy dist
+```
+
+### Custom Domain
+
+After deployment, configure your custom domain in the Cloudflare Pages dashboard.
+
+## ✅ Implementation Status
+
+### Completed
+- ✅ Astro project setup with Cloudflare adapter
+- ✅ CSS extraction and organization (global, animations, utilities)
+- ✅ Core animation components (Butterfly, FlowerField)
+- ✅ Layout components (Header, Footer, LanguagePicker)
+- ✅ UI components (Button, Card, SectionHeading)
+- ✅ i18n system with German/English support
+- ✅ Homepage (German & English)
+- ✅ About Me pages (personal "I" voice)
+- ✅ Content collections (blog & portfolio)
+- ✅ Portfolio pages and dynamic routes
+- ✅ Blog pages and dynamic routes
+- ✅ Services pages
+- ✅ Contact pages
+- ✅ SEO optimization (meta tags, sitemap, robots.txt)
+- ✅ Responsive design
+- ✅ Accessibility features
+
+### To Do (Content)
+- 📝 Add personal photo (`/public/images/paroos-photo.jpg`)
+- 📝 Write personal story in About pages (replace placeholders)
+- 📝 Add 3-5 real portfolio projects with screenshots
+- 📝 Write 3-5 blog posts
+- 📝 Update contact email address if needed
+
+### Optional Enhancements
+- [ ] Style guide page
+- [ ] Contact form with form handling
+- [ ] Analytics integration
+- [ ] Newsletter signup
+- [ ] Performance optimizations (lazy loading, etc.)
+
+## 🎯 Next Steps
+
+1. **Add Personal Content**:
+   - Replace placeholder photo
+   - Write personal story in About page
+   - Add real portfolio projects
+   - Write initial blog posts
+
+2. **Review Translations**:
+   - Check all German and English translations
+   - Update "Ihr Name" / "Your Name" placeholders
+
+3. **Deploy**:
+   - Push to GitHub
+   - Connect to Cloudflare Pages
+   - Configure custom domain
+
+4. **Launch**:
+   - Test all pages and links
+   - Verify animations on different devices
+   - Share your new site!
+
+## 📚 Technologies
+
+- [Astro](https://astro.build/) - Web framework
+- [MDX](https://mdxjs.com/) - Markdown with JSX
+- [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/) - Sitemap generation
+- [@astrojs/cloudflare](https://docs.astro.build/en/guides/integrations-guide/cloudflare/) - Cloudflare Pages adapter
+- Pure CSS animations (no JavaScript for butterfly!)
+- TypeScript
+- Font Awesome icons
+
+## 📄 License
+
+Copyright © 2025 Flickflauder. All rights reserved.
+
+---
+
+**Built with care 🦋**

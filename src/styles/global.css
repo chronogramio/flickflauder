@@ -1,0 +1,371 @@
+/*
+ * Flickflauder Global Styles
+ * Extracted from original single-page design
+ */
+
+/* ==================== CSS VARIABLES ==================== */
+:root {
+  /* Animation timing */
+  --wing-speed: 0.28s; /* The perfect balance of energy and elegance */
+
+  /* Pastel color palette */
+  --lavender: #b8a4d4;
+  --peach: #ffc5a8;
+  --mint: #a8e6cf;
+  --coral: #ffb3ba;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--lavender), var(--peach));
+  --gradient-secondary: linear-gradient(135deg, var(--mint), var(--coral));
+
+  /* Text colors */
+  --text-primary: #1a1a1a;
+  --text-secondary: #3a3a3a;
+  --text-muted: #5a5a5a;
+
+  /* Shadows */
+  --shadow-sm: 0 4px 15px rgba(184, 164, 212, 0.2);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(184, 164, 212, 0.3);
+
+  /* Spacing */
+  --container-max: 1200px;
+  --section-padding: 5rem 0;
+
+  /* Border radius */
+  --radius-md: 20px;
+  --radius-lg: 50px;
+
+  /* Transitions */
+  --transition-normal: 0.3s ease;
+}
+
+/* ==================== RESET & BASE ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Background gradient (fixed) */
+body {
+  background: radial-gradient(
+    circle at center,
+    #f5f0fa 0%,
+    #fef5f1 40%,
+    #e8f7f0 100%
+  );
+  background-attachment: fixed;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==================== LAYOUT ==================== */
+#page-content {
+  position: relative;
+  z-index: 10;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  padding: var(--section-padding);
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+h2 {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 400;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.lead {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+/* Color utilities */
+.color-lavender {
+  color: var(--lavender);
+}
+
+.color-peach {
+  color: var(--peach);
+}
+
+.color-coral {
+  color: var(--coral);
+}
+
+.color-mint {
+  color: var(--mint);
+}
+
+/* ==================== BUTTONS ==================== */
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+  display: inline-block;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(184, 164, 212, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  border: 2px solid var(--lavender);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(184, 164, 212, 0.3);
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+  border: 2px solid #f0f0f0;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--lavender);
+}
+
+/* Service Cards */
+.service-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+  border: 2px solid #f0f0f0;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--lavender);
+}
+
+.service-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--gradient-primary);
+  position: relative;
+  font-size: 2.5rem;
+  color: white;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.service-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* Contact Cards */
+.contact-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: transform var(--transition-normal),
+    box-shadow var(--transition-normal), background var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 30px rgba(168, 230, 207, 0.3);
+  border-color: var(--mint);
+}
+
+.contact-icon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--gradient-secondary);
+  position: relative;
+  font-size: 2.8rem;
+  color: white;
+}
+
+.contact-card h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.contact-card a {
+  color: var(--lavender);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: color var(--transition-normal);
+}
+
+.contact-card a:hover {
+  color: var(--peach);
+}
+
+.contact-card p {
+  color: #4a4a4a;
+  line-height: 1.7;
+}
+
+/* ==================== GRIDS ==================== */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ==================== SECTION BACKGROUNDS ==================== */
+#hero {
+  background: transparent;
+}
+
+#services {
+  background: #ffffff;
+}
+
+#about {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+#about h2,
+#about .lead,
+#about .about-content p {
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#contact {
+  background: transparent;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+  background: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+  font-weight: 300;
+}
+
+.footer-tagline {
+  color: var(--lavender);
+  font-style: italic;
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  section {
+    padding: 3rem 0;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-methods {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}

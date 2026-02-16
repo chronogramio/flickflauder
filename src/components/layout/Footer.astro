@@ -1,0 +1,43 @@
+---
+/**
+ * Footer Component
+ * Extracted from original design
+ */
+
+interface Props {
+  lang?: 'de' | 'en';
+}
+
+const { lang = 'de' } = Astro.props;
+
+const currentYear = new Date().getFullYear();
+const tagline = lang === 'de' ? 'Mit Sorgfalt gestaltet' : 'Crafted with care';
+const copyright =
+  lang === 'de' ? 'Alle Rechte vorbehalten' : 'All rights reserved';
+---
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; {currentYear} Flickflauder. {copyright}.</p>
+    <p class="footer-tagline">{tagline}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .footer p {
+    margin: 0.5rem 0;
+    font-weight: 300;
+  }
+
+  .footer-tagline {
+    color: var(--lavender);
+    font-style: italic;
+  }
+</style>

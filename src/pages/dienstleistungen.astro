@@ -1,0 +1,80 @@
+---
+/**
+ * German Services Page
+ * Detailed services page
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import Button from '../components/ui/Button.astro';
+import { t } from '../utils/i18n';
+
+const lang = 'de';
+const title = 'Leistungen - Flickflauder';
+const description =
+  'Individuelle Softwareentwicklung, Datenanalyse, digitale Beratung und technische Lösungen.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  butterflySize="medium"
+  butterflyProminent={false}
+  flowerIntensity="medium"
+>
+  <section class="services-page">
+    <div class="container">
+      <SectionHeading>{t(lang, 'services.title')}</SectionHeading>
+      <p class="intro">
+        Ich biete maßgeschneiderte Lösungen für Ihre digitalen Herausforderungen.
+      </p>
+    </div>
+  </section>
+
+  <ServicesGrid lang={lang} />
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Bereit, Ihr Projekt zu starten?</h2>
+      <p>Lassen Sie uns besprechen, wie ich Ihnen helfen kann.</p>
+      <Button href="/kontakt" variant="primary">
+        Kontakt aufnehmen
+      </Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .services-page {
+    padding: 5rem 0 2rem;
+    background: white;
+    text-align: center;
+  }
+
+  .intro {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto 3rem;
+  }
+
+  .cta-section {
+    padding: 5rem 0;
+    text-align: center;
+    background: var(--gradient-primary);
+    color: white;
+  }
+
+  .cta-section h2 {
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.95);
+  }
+</style>

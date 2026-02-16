@@ -1,0 +1,237 @@
+/*
+ * Flickflauder Animations
+ * Butterfly 3D and Flower Field animations
+ */
+
+/* ==================== FLOWER FIELD ANIMATION ==================== */
+#flower-field {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  transform-style: preserve-3d;
+  perspective: 1200px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.flower {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+  animation: zoom-past 9s linear infinite;
+}
+
+.flower-svg {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+@keyframes zoom-past {
+  0% {
+    transform: translate3d(var(--x-start), var(--y-start), -1200px) scale(0.1);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  85% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(var(--x-end), var(--y-end), 800px) scale(3.5);
+    filter: blur(12px);
+    opacity: 0;
+  }
+}
+
+/* ==================== BUTTERFLY 3D ANIMATION ==================== */
+.butterfly-chase {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+  animation: struggle 5s ease-in-out infinite alternate;
+  z-index: 2;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.butterfly-orientation {
+  transform-style: preserve-3d;
+  transform: rotateX(65deg);
+}
+
+.butterfly-assembly {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  animation: body-bob var(--wing-speed) ease-in-out infinite alternate;
+}
+
+/* BODY STRUCTURE */
+.body-3d {
+  position: relative;
+  width: 6px;
+  height: 35px;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.segment {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--lavender);
+}
+
+.head {
+  width: 6px;
+  height: 6px;
+  top: -8px;
+}
+
+.thorax {
+  width: 8px;
+  height: 14px;
+  top: -4px;
+}
+
+.abdomen {
+  width: 5px;
+  height: 25px;
+  top: 10px;
+}
+
+/* WINGS */
+.wing-set {
+  width: min(110px, 15vw);
+  height: min(130px, 18vh);
+  transform-style: preserve-3d;
+}
+
+.left {
+  transform-origin: right center;
+  animation: flap-l var(--wing-speed) ease-in-out infinite alternate;
+}
+
+.right {
+  transform-origin: left center;
+  animation: flap-r var(--wing-speed) ease-in-out infinite alternate;
+}
+
+.wing-outline {
+  fill: rgba(184, 164, 212, 0.15);
+  stroke: url(#grad-pastel);
+  stroke-width: 2.2;
+}
+
+.wing-vein {
+  stroke: rgba(51, 51, 51, 0.5);
+  stroke-width: 0.5;
+  fill: none;
+}
+
+.wing-spot {
+  fill: rgba(51, 51, 51, 0.25);
+}
+
+/* Enhanced flight path with deeper Z-movement and figure-8 motion */
+@keyframes struggle {
+  0% {
+    transform: translate3d(-5vw, 3vh, -80px) rotateZ(-12deg);
+  }
+  25% {
+    transform: translate3d(0vw, -2vh, 100px) rotateZ(5deg);
+  }
+  50% {
+    transform: translate3d(5vw, 2vh, 250px) rotateZ(12deg);
+  }
+  75% {
+    transform: translate3d(2vw, -1vh, 120px) rotateZ(-5deg);
+  }
+  100% {
+    transform: translate3d(-3vw, 1vh, 0px) rotateZ(-8deg);
+  }
+}
+
+@keyframes flap-l {
+  0% {
+    transform: rotateY(8deg) translateY(0px);
+  }
+  100% {
+    transform: rotateY(82deg) rotateZ(-18deg) translateY(-3px);
+  }
+}
+
+@keyframes flap-r {
+  0% {
+    transform: rotateY(-8deg) translateY(0px);
+  }
+  100% {
+    transform: rotateY(-82deg) rotateZ(18deg) translateY(-3px);
+  }
+}
+
+@keyframes body-bob {
+  0% {
+    transform: translateZ(0);
+  }
+  100% {
+    transform: translateZ(18px);
+  }
+}
+
+/* ==================== BUTTERFLY SIZE VARIANTS ==================== */
+.butterfly-chase.small {
+  transform: scale(0.4);
+}
+
+.butterfly-chase.medium {
+  transform: scale(1);
+}
+
+.butterfly-chase.large {
+  transform: scale(1.5);
+}
+
+/* ==================== BUTTERFLY PROMINENCE VARIANTS ==================== */
+.butterfly-chase.subtle {
+  opacity: 0.6;
+  animation-duration: 8s;
+}
+
+.butterfly-chase.prominent {
+  opacity: 1;
+  animation-duration: 5s;
+}
+
+/* ==================== ACCESSIBILITY: REDUCED MOTION ==================== */
+@media (prefers-reduced-motion: reduce) {
+  .butterfly-chase {
+    animation: none;
+  }
+
+  .flower {
+    animation: zoom-past 15s linear infinite;
+  }
+
+  .left,
+  .right {
+    animation: none;
+    transform: rotateY(45deg);
+  }
+
+  .butterfly-assembly {
+    animation: none;
+  }
+}

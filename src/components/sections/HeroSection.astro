@@ -1,0 +1,33 @@
+---
+/**
+ * HeroSection Component
+ * Homepage hero with title, tagline, and CTA buttons
+ */
+
+import Button from '../ui/Button.astro';
+import { t, type Language } from '../../utils/i18n';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'de' } = Astro.props;
+---
+
+<section id="hero">
+  <div class="container">
+    <h1 class="logo-title">{t(lang, 'hero.title')}</h1>
+    <p class="tagline">{t(lang, 'hero.tagline')}</p>
+    <div class="cta-buttons">
+      <Button href="#services" variant="primary">
+        {t(lang, 'hero.cta.services')}
+      </Button>
+      <Button href="#contact" variant="secondary">
+        {t(lang, 'hero.cta.contact')}
+      </Button>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>↓</span>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+---
+/**
+ * German Portfolio Listing Page
+ * Displays all portfolio projects
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import ProjectCard from '../components/sections/ProjectCard.astro';
+import { t } from '../utils/i18n';
+
+const lang = 'de';
+const title = 'Portfolio - Flickflauder';
+const description = 'Projekte und Arbeitsbeispiele aus meinem Portfolio.';
+
+// Get all German portfolio projects, sorted by order
+const projects = (await getCollection('portfolio'))
+  .filter((project) => project.data.lang === lang)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  butterflySize="small"
+  butterflyProminent={false}
+  flowerIntensity="low"
+>
+  <section class="portfolio-page">
+    <div class="container">
+      <SectionHeading>{t(lang, 'portfolio.title')}</SectionHeading>
+
+      {
+        projects.length === 0 ? (
+          <p class="no-projects">
+            Noch keine Projekte vorhanden. Schauen Sie bald wieder vorbei!
+          </p>
+        ) : (
+          <div class="projects-grid">
+            {projects.map((project) => (
+              <ProjectCard
+                title={project.data.title}
+                description={project.data.description}
+                thumbnail={project.data.thumbnail}
+                technologies={project.data.technologies}
+                slug={project.slug}
+                lang={lang}
+              />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .portfolio-page {
+    padding: 5rem 0;
+    background: white;
+    min-height: 60vh;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .no-projects {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

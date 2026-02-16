@@ -1,0 +1,202 @@
+---
+/**
+ * Header Component
+ * Navigation with language switcher
+ */
+
+import LanguagePicker from './LanguagePicker.astro';
+
+interface Props {
+  lang?: 'de' | 'en';
+}
+
+const { lang = 'de' } = Astro.props;
+
+// Navigation items based on language
+const navItems =
+  lang === 'de'
+    ? [
+        { href: '/', label: 'Startseite' },
+        { href: '/dienstleistungen', label: 'Leistungen' },
+        { href: '/uber-mich', label: 'Über mich' },
+        { href: '/portfolio', label: 'Portfolio' },
+        { href: '/blog', label: 'Blog' },
+        { href: '/kontakt', label: 'Kontakt' },
+      ]
+    : [
+        { href: '/en', label: 'Home' },
+        { href: '/en/services', label: 'Services' },
+        { href: '/en/about', label: 'About Me' },
+        { href: '/en/portfolio', label: 'Portfolio' },
+        { href: '/en/blog', label: 'Blog' },
+        { href: '/en/contact', label: 'Contact' },
+      ];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container">
+    <nav class="main-nav">
+      <a href={lang === 'de' ? '/' : '/en'} class="logo">
+        <span class="color-lavender">flick</span><span class="color-peach"
+          >flauder</span
+        >
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Navigation links -->
+      <ul class="nav-links">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={currentPath === item.href ? 'active' : ''}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <LanguagePicker lang={lang} currentPath={currentPath} />
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 100;
+    padding: 1.5rem 0;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 400;
+    transition: color var(--transition-normal);
+    position: relative;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--lavender);
+  }
+
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .mobile-menu-toggle {
+      display: block;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      flex-direction: column;
+      gap: 0;
+      padding: 1rem 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links li {
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-links li:last-child {
+      border-bottom: none;
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const setupMobileMenu = () => {
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+      });
+
+      // Close menu when clicking a link
+      const links = navLinks.querySelectorAll('a');
+      links.forEach((link) => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+        });
+      });
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupMobileMenu);
+  } else {
+    setupMobileMenu();
+  }
+</script>

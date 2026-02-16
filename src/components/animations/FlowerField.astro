@@ -1,0 +1,128 @@
+---
+/**
+ * FlowerField Component
+ * Background animation layer with zooming 3D flowers
+ * Client-side script generates 25 dynamic flowers
+ */
+
+interface Props {
+  intensity?: 'low' | 'medium' | 'high';
+  class?: string;
+}
+
+const { intensity = 'medium', class: className = '' } = Astro.props;
+---
+
+<div id="flower-field" class={className} data-intensity={intensity}></div>
+
+<script>
+  // Import and initialize the flower field
+  const initFlowerField = () => {
+    const field = document.getElementById('flower-field');
+    if (!field) return;
+
+    const intensity = field.getAttribute('data-intensity') || 'medium';
+
+    // Flower count based on intensity
+    const counts = {
+      low: 15,
+      medium: 25,
+      high: 35,
+    };
+    const count = counts[intensity as keyof typeof counts] || 25;
+
+    // Three flower types for variety
+    const flowerTypes = [
+      {
+        name: 'daisy',
+        petals: 5,
+        svg: `<svg class="flower-svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="5" fill="#ffd700"/>
+          <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor"/>
+          <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(72 50 50)"/>
+          <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(144 50 50)"/>
+          <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(216 50 50)"/>
+          <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(288 50 50)"/>
+        </svg>`,
+      },
+      {
+        name: 'simple',
+        petals: 4,
+        svg: `<svg class="flower-svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="6" fill="#ffd700"/>
+          <ellipse cx="50" cy="25" rx="12" ry="20" fill="currentColor"/>
+          <ellipse cx="75" cy="50" rx="20" ry="12" fill="currentColor"/>
+          <ellipse cx="50" cy="75" rx="12" ry="20" fill="currentColor"/>
+          <ellipse cx="25" cy="50" rx="20" ry="12" fill="currentColor"/>
+        </svg>`,
+      },
+      {
+        name: 'star',
+        petals: 6,
+        svg: `<svg class="flower-svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="5" fill="#ffd700"/>
+          <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor"/>
+          <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(60 50 50)"/>
+          <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(120 50 50)"/>
+          <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(180 50 50)"/>
+          <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(240 50 50)"/>
+          <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(300 50 50)"/>
+        </svg>`,
+      },
+    ];
+
+    // Pastel color palette (using CSS variables)
+    const colors = [
+      'var(--lavender)',
+      'var(--peach)',
+      'var(--mint)',
+      'var(--coral)',
+    ];
+
+    // Generate flowers
+    for (let i = 0; i < count; i++) {
+      const container = document.createElement('div');
+      container.className = 'flower';
+
+      // Random angle and distance for distribution
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 130 + Math.random() * 260;
+      const xEnd = Math.cos(angle) * distance + 'vw';
+      const yEnd = Math.sin(angle) * distance + 'vh';
+
+      // Set custom properties
+      container.style.setProperty(
+        '--x-start',
+        Math.random() * 10 - 5 + 'vw'
+      );
+      container.style.setProperty(
+        '--y-start',
+        Math.random() * 10 - 5 + 'vh'
+      );
+      container.style.setProperty('--x-end', xEnd);
+      container.style.setProperty('--y-end', yEnd);
+
+      // Random pastel color
+      container.style.color =
+        colors[Math.floor(Math.random() * colors.length)];
+
+      // Varied timing
+      container.style.animationDuration = 7 + Math.random() * 7 + 's';
+      container.style.animationDelay = -(Math.random() * 15) + 's';
+
+      // Random flower type
+      const flowerType =
+        flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+      container.innerHTML = flowerType.svg;
+
+      field.appendChild(container);
+    }
+  };
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFlowerField);
+  } else {
+    initFlowerField();
+  }
+</script>

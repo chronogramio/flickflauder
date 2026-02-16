@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Me",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "flickflauder",
+    "tagline": "Transforming ideas into digital reality",
+    "cta": {
+      "services": "Our Services",
+      "contact": "Get in Touch"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "software": {
+      "title": "Custom Software Development",
+      "description": "Tailored software solutions for your unique business needs. From web applications to enterprise systems, we build scalable and maintainable code."
+    },
+    "data": {
+      "title": "Data Analysis",
+      "description": "Turn raw data into actionable insights. We help you make data-driven decisions through advanced analytics, visualization, and reporting."
+    },
+    "consulting": {
+      "title": "Digital Consulting",
+      "description": "Strategic guidance on your digital transformation journey. We help you optimize processes, choose the right technologies, and plan for sustainable growth."
+    },
+    "technical": {
+      "title": "Technical Solutions",
+      "description": "API development, system integration, automation, and more. We solve complex technical challenges with elegant, efficient solutions."
+    }
+  },
+  "about": {
+    "title": "About Flickflauder",
+    "greeting": "Hi, I'm [Your Name]",
+    "lead": "Software developer and data analyst with a passion for digital transformation.",
+    "story": {
+      "title": "My Story",
+      "placeholder": "[Your personal story goes here - how you got into software development]"
+    },
+    "approach": {
+      "title": "My Approach",
+      "text": "I combine technical expertise with creative problem-solving to deliver solutions that make a real difference. Whether you're a startup discovering your wings or an established company ready to soar – I guide you through the digital landscape."
+    },
+    "values": {
+      "title": "My Values",
+      "quality": "Clean code and technical excellence",
+      "communication": "Clear, transparent communication",
+      "learning": "Continuous learning and growth"
+    },
+    "section": {
+      "lead": "Like a butterfly's transformation, I help your business evolve through technology.",
+      "text1": "I combine technical expertise with creative problem-solving to deliver solutions that make a real difference. Whether you're a startup discovering your wings or an established company ready to soar – I guide you through the digital landscape.",
+      "text2": "I believe in clean code, clear communication, and lasting partnerships. Every project is an opportunity to create something remarkable together."
+    }
+  },
+  "contact": {
+    "title": "Let's Work Together",
+    "intro": "Ready to start your next project? Get in touch and let's discuss how we can help.",
+    "email": {
+      "title": "Email",
+      "address": "hello@flickflauder.com"
+    },
+    "meeting": {
+      "title": "Schedule a Meeting",
+      "description": "Book a free consultation to discuss your project requirements and how we can help."
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "viewProject": "View Project",
+    "technologies": "Technologies"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Read More",
+    "publishedOn": "Published on"
+  },
+  "footer": {
+    "copyright": "All rights reserved",
+    "tagline": "Crafted with care"
+  }
+}

@@ -1,0 +1,26 @@
+---
+/**
+ * AboutSection Component
+ * About preview for homepage
+ */
+
+import SectionHeading from '../ui/SectionHeading.astro';
+import { t, type Language } from '../../utils/i18n';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'de' } = Astro.props;
+---
+
+<section id="about" class="about">
+  <div class="container">
+    <SectionHeading>{t(lang, 'about.title')}</SectionHeading>
+    <div class="about-content">
+      <p class="lead">{t(lang, 'about.section.lead')}</p>
+      <p>{t(lang, 'about.section.text1')}</p>
+      <p>{t(lang, 'about.section.text2')}</p>
+    </div>
+  </div>
+</section>

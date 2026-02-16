@@ -1,0 +1,32 @@
+---
+/**
+ * German Homepage
+ * Main landing page with hero, services, about, and contact
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import AboutSection from '../components/sections/AboutSection.astro';
+import ContactSection from '../components/sections/ContactSection.astro';
+import { t } from '../utils/i18n';
+
+const lang = 'de';
+const title = 'Flickflauder - Individuelle Softwareentwicklung & Datenanalyse';
+const description =
+  'Individuelle Softwareentwicklung, Datenanalyse und digitale Beratung. Transformieren Sie Ihr Unternehmen mit erstklassigen technischen Lösungen.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  butterflySize="large"
+  butterflyProminent={true}
+  flowerIntensity="medium"
+>
+  <HeroSection lang={lang} />
+  <ServicesGrid lang={lang} />
+  <AboutSection lang={lang} />
+  <ContactSection lang={lang} />
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+/**
+ * SectionHeading Component
+ * Consistent h2 styling across all sections
+ */
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<h2 class={className}>
+  <slot />
+</h2>
+
+<style>
+  h2 {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 400;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+</style>

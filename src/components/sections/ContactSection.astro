@@ -1,0 +1,38 @@
+---
+/**
+ * ContactSection Component
+ * Contact methods and CTA
+ */
+
+import SectionHeading from '../ui/SectionHeading.astro';
+import ContactCard from './ContactCard.astro';
+import { t, type Language } from '../../utils/i18n';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'de' } = Astro.props;
+---
+
+<section id="contact" class="contact">
+  <div class="container">
+    <SectionHeading>{t(lang, 'contact.title')}</SectionHeading>
+    <p class="contact-intro">{t(lang, 'contact.intro')}</p>
+
+    <div class="contact-methods">
+      <ContactCard icon="fa-solid fa-envelope" title={t(lang, 'contact.email.title')}>
+        <a href={`mailto:${t(lang, 'contact.email.address')}`}>
+          {t(lang, 'contact.email.address')}
+        </a>
+      </ContactCard>
+
+      <ContactCard
+        icon="fa-solid fa-comments"
+        title={t(lang, 'contact.meeting.title')}
+      >
+        <p>{t(lang, 'contact.meeting.description')}</p>
+      </ContactCard>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,5 @@
+# robots.txt for Flickflauder
+User-agent: *
+Allow: /
+
+Sitemap: https://flickflauder.com/sitemap-index.xml

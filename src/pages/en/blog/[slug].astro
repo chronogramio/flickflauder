@@ -1,0 +1,48 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.filter((post) => post.data.lang === 'en').map((post) => {
+    // Remove 'en/' prefix from slug
+    const slug = post.slug.replace(/^en\//, '');
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={`${post.data.title} - Blog`} description={post.data.description} lang="en" butterflySize="small">
+  <article class="blog-post">
+    <div class="container">
+      <header>
+        <time>{formattedDate}</time>
+        <h1>{post.data.title}</h1>
+        <div class="tags">{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
+      </header>
+      <div class="content"><Content /></div>
+      <div class="back-link"><a href="/en/blog">← Back to Blog</a></div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-post { padding: 5rem 0; background: white; }
+  header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 2px solid #f0f0f0; }
+  time { color: var(--text-muted); font-size: 0.9rem; }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 1rem 0; }
+  .tags { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
+  .tag { padding: 0.25rem 0.75rem; background: rgba(168, 230, 207, 0.1); border: 1px solid var(--mint); border-radius: 15px; font-size: 0.85rem; }
+  .content { max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; }
+  .content :global(h2) { font-size: 2rem; margin-top: 3rem; margin-bottom: 1rem; }
+  .content :global(p) { margin-bottom: 1.5rem; }
+  .back-link { text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #f0f0f0; }
+  .back-link a { color: var(--lavender); text-decoration: none; }
+</style>

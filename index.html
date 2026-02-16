@@ -1,34 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Flickflauder - Custom software development, data analysis, and digital consulting services. Transform your business with expert technical solutions.">
-    <meta name="keywords" content="custom software development, data analysis, web development, consulting, digital solutions">
+    <meta name="description" content="Flickflauder - Individuelle Softwareentwicklung, Datenanalyse und digitale Beratung. Transformieren Sie Ihr Unternehmen mit erstklassigen technischen Lösungen.">
+    <meta name="keywords" content="individuelle Softwareentwicklung, Datenanalyse, Webentwicklung, Beratung, digitale Lösungen">
     <meta name="author" content="Flickflauder">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://flickflauder.com/">
-    <meta property="og:title" content="Flickflauder - Custom Software Development & Data Analysis">
-    <meta property="og:description" content="Expert software development, data analysis, and digital consulting services to transform your business.">
+    <meta property="og:title" content="Flickflauder - Individuelle Softwareentwicklung & Datenanalyse">
+    <meta property="og:description" content="Expertenwissen in Softwareentwicklung, Datenanalyse und digitaler Beratung zur Transformation Ihres Unternehmens.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
 
-    <title>Flickflauder - Custom Software Development & Data Analysis</title>
-
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Three.js for 3D Butterfly Animation -->
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-      }
-    }
-    </script>
+    <title>Flickflauder - Individuelle Softwareentwicklung & Datenanalyse</title>
 
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
@@ -36,128 +24,796 @@
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "Flickflauder",
-      "description": "Custom software development, data analysis, and digital consulting services",
+      "description": "Individuelle Softwareentwicklung, Datenanalyse und digitale Beratung",
       "url": "https://flickflauder.com",
-      "serviceType": ["Software Development", "Data Analysis", "Digital Consulting"],
-      "areaServed": "Worldwide"
+      "serviceType": ["Softwareentwicklung", "Datenanalyse", "Digitale Beratung"],
+      "areaServed": "Weltweit"
     }
     </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            /* 0.28s: The perfect balance of energy and elegance */
+            --wing-speed: 0.28s;
+            /* Pastel color palette */
+            --lavender: #b8a4d4;
+            --peach: #ffc5a8;
+            --mint: #a8e6cf;
+            --coral: #ffb3ba;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* BACKGROUND ANIMATION LAYER (Fixed) */
+        body {
+            background: radial-gradient(circle at center, #f5f0fa 0%, #fef5f1 40%, #e8f7f0 100%);
+            background-attachment: fixed;
+        }
+
+        #flower-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            transform-style: preserve-3d;
+            perspective: 1200px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .flower {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-style: preserve-3d;
+            animation: zoom-past 9s linear infinite;
+        }
+
+        .flower-svg {
+            width: 40px; height: 40px;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        @keyframes zoom-past {
+            0% {
+                transform: translate3d(var(--x-start), var(--y-start), -1200px) scale(0.1);
+                opacity: 0;
+            }
+            15% { opacity: 0.8; }
+            50% { opacity: 0.5; }
+            85% { opacity: 0.5; }
+            100% {
+                transform: translate3d(var(--x-end), var(--y-end), 800px) scale(3.5);
+                filter: blur(12px);
+                opacity: 0;
+            }
+        }
+
+        /* THE BUTTERFLY */
+        .butterfly-chase {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            animation: struggle 5s ease-in-out infinite alternate;
+            z-index: 2;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .butterfly-orientation {
+            transform-style: preserve-3d;
+            transform: rotateX(65deg);
+        }
+
+        .butterfly-assembly {
+            display: flex; align-items: center; justify-content: center;
+            transform-style: preserve-3d;
+            animation: body-bob var(--wing-speed) ease-in-out infinite alternate;
+        }
+
+        /* BODY STRUCTURE */
+        .body-3d {
+            position: relative;
+            width: 6px;
+            height: 35px;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .segment {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--lavender);
+        }
+        .head { width: 6px; height: 6px; top: -8px; }
+        .thorax { width: 8px; height: 14px; top: -4px; }
+        .abdomen { width: 5px; height: 25px; top: 10px; }
+
+        /* WINGS - Improved smooth timing */
+        .wing-set {
+            width: min(110px, 15vw);
+            height: min(130px, 18vh);
+            transform-style: preserve-3d;
+        }
+        .left {
+            transform-origin: right center;
+            animation: flap-l var(--wing-speed) ease-in-out infinite alternate;
+        }
+        .right {
+            transform-origin: left center;
+            animation: flap-r var(--wing-speed) ease-in-out infinite alternate;
+        }
+
+        .wing-outline {
+            fill: rgba(184, 164, 212, 0.15);
+            stroke: url(#grad-pastel);
+            stroke-width: 2.2;
+        }
+
+        .wing-vein {
+            stroke: rgba(51, 51, 51, 0.5);
+            stroke-width: 0.5;
+            fill: none;
+        }
+
+        .wing-spot {
+            fill: rgba(51, 51, 51, 0.25);
+        }
+
+        /* Enhanced flight path with deeper Z-movement and figure-8 motion */
+        @keyframes struggle {
+            0% {
+                transform: translate3d(-5vw, 3vh, -80px) rotateZ(-12deg);
+            }
+            25% {
+                transform: translate3d(0vw, -2vh, 100px) rotateZ(5deg);
+            }
+            50% {
+                transform: translate3d(5vw, 2vh, 250px) rotateZ(12deg);
+            }
+            75% {
+                transform: translate3d(2vw, -1vh, 120px) rotateZ(-5deg);
+            }
+            100% {
+                transform: translate3d(-3vw, 1vh, 0px) rotateZ(-8deg);
+            }
+        }
+
+        @keyframes flap-l {
+            0% { transform: rotateY(8deg) translateY(0px); }
+            100% { transform: rotateY(82deg) rotateZ(-18deg) translateY(-3px); }
+        }
+        @keyframes flap-r {
+            0% { transform: rotateY(-8deg) translateY(0px); }
+            100% { transform: rotateY(-82deg) rotateZ(18deg) translateY(-3px); }
+        }
+        @keyframes body-bob {
+            0% { transform: translateZ(0); }
+            100% { transform: translateZ(18px); }
+        }
+
+        /* CONTENT LAYER (Scrollable) */
+        #page-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* HERO SECTION */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        #hero .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: -20vh;
+            color: #3a3a3a;
+            text-shadow:
+                0 1px 6px rgba(255,255,255,0.8),
+                0 2px 12px rgba(255,255,255,0.6);
+            letter-spacing: -0.02em;
+        }
+
+        .color-lavender {
+            color: var(--lavender);
+        }
+
+        .color-peach {
+            color: var(--peach);
+        }
+
+        .color-coral {
+            color: var(--coral);
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #2a2a2a;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            text-shadow:
+                0 1px 6px rgba(255,255,255,0.9),
+                0 2px 12px rgba(255,255,255,0.7);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 35vh;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 400;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(184, 164, 212, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--lavender), var(--peach));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(184, 164, 212, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            color: #3a3a3a;
+            border: 2px solid var(--lavender);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(184, 164, 212, 0.3);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--lavender);
+            animation: bounce 2s infinite;
+            text-shadow: 0 2px 8px rgba(255,255,255,0.8);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 5rem 0;
+        }
+
+        #hero {
+            background: transparent;
+        }
+
+        #services {
+            background: #ffffff;
+        }
+
+        #about {
+            background: linear-gradient(135deg, #b8a4d4, #ffc5a8);
+            color: white;
+        }
+
+        #about h2,
+        #about .lead,
+        #about .about-content p {
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        #contact {
+            background: transparent;
+        }
+
+        h2 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #2a2a2a;
+        }
+
+        /* SERVICES */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #f0f0f0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(184, 164, 212, 0.3);
+            border-color: var(--lavender);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--lavender), var(--peach));
+            position: relative;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #2a2a2a;
+        }
+
+        .service-card p {
+            color: #5a5a5a;
+            line-height: 1.7;
+        }
+
+        /* ABOUT */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .lead {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* CONTACT */
+        .contact-intro {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #3a3a3a;
+            margin-bottom: 3rem;
+            text-shadow:
+                0 2px 8px rgba(255,255,255,0.9),
+                0 4px 16px rgba(255,255,255,0.7);
+        }
+
+        #contact h2 {
+            text-shadow:
+                0 2px 10px rgba(255,255,255,0.95),
+                0 4px 20px rgba(255,255,255,0.8);
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 8px 30px rgba(168, 230, 207, 0.3);
+            border-color: var(--mint);
+        }
+
+        .contact-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mint), var(--coral));
+            position: relative;
+            font-size: 2.8rem;
+            color: white;
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #2a2a2a;
+        }
+
+        .contact-card a {
+            color: var(--lavender);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-card a:hover {
+            color: var(--peach);
+        }
+
+        .contact-card p {
+            color: #4a4a4a;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #2a2a2a;
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            font-weight: 300;
+        }
+
+        .footer-tagline {
+            color: var(--lavender);
+            font-style: italic;
+        }
+
+        /* ACCESSIBILITY: Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .butterfly-chase {
+                animation: none;
+            }
+            .flower {
+                animation: zoom-past 15s linear infinite;
+            }
+            .left, .right {
+                animation: none;
+                transform: rotateY(45deg);
+            }
+            .butterfly-assembly {
+                animation: none;
+            }
+            .scroll-indicator {
+                animation: none;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            section {
+                padding: 3rem 0;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
-    <!-- 3D Butterfly Canvas (Fixed behind hero section) -->
-    <div id="butterfly-3d-container">
-        <canvas id="butterfly-canvas"></canvas>
+
+    <!-- BACKGROUND ANIMATION (Fixed) -->
+    <div id="flower-field"></div>
+
+    <div class="butterfly-chase">
+        <div class="butterfly-orientation">
+            <div class="butterfly-assembly">
+                <div class="wing-set left">
+                    <svg viewBox="0 0 100 120">
+                        <defs>
+                            <linearGradient id="grad-pastel">
+                                <stop offset="0%" stop-color="#b8a4d4"/>
+                                <stop offset="50%" stop-color="#ffc5a8"/>
+                                <stop offset="100%" stop-color="#ffb3ba"/>
+                            </linearGradient>
+                        </defs>
+                        <path class="wing-outline" d="M100,40 C70,0 10,5 15,45 C20,75 90,65 100,40 Z" />
+                        <path class="wing-outline" d="M100,45 C100,45 80,100 70,110 C50,100 20,75 25,50 C30,35 80,40 100,45 Z" />
+                        <line class="wing-vein" x1="100" y1="40" x2="30" y2="45"/>
+                        <line class="wing-vein" x1="100" y1="45" x2="35" y2="70"/>
+                        <line class="wing-vein" x1="90" y1="50" x2="70" y2="105"/>
+                        <circle class="wing-spot" cx="60" cy="35" r="3"/>
+                        <circle class="wing-spot" cx="45" cy="60" r="2.5"/>
+                        <circle class="wing-spot" cx="65" cy="80" r="2"/>
+                    </svg>
+                </div>
+                <div class="body-3d">
+                    <div class="segment head"></div><div class="segment thorax"></div><div class="segment abdomen"></div>
+                </div>
+                <div class="wing-set right">
+                    <svg viewBox="0 0 100 120">
+                        <path class="wing-outline" d="M0,40 C30,0 90,5 85,45 C80,75 10,65 0,40 Z" />
+                        <path class="wing-outline" d="M0,45 C0,45 20,100 30,110 C50,100 80,75 75,50 C70,35 20,40 0,45 Z" />
+                        <line class="wing-vein" x1="0" y1="40" x2="70" y2="45"/>
+                        <line class="wing-vein" x1="0" y1="45" x2="65" y2="70"/>
+                        <line class="wing-vein" x1="10" y1="50" x2="30" y2="105"/>
+                        <circle class="wing-spot" cx="40" cy="35" r="3"/>
+                        <circle class="wing-spot" cx="55" cy="60" r="2.5"/>
+                        <circle class="wing-spot" cx="35" cy="80" r="2"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="container">
-            <h1 class="logo-title">
-                fl<span class="i-wrapper">i<svg id="butterfly" class="butterfly" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <g class="butterfly-body">
-                        <!-- Left wings -->
-                        <ellipse class="wing wing-left-top" cx="35" cy="40" rx="18" ry="25" transform="rotate(-30 35 40)"/>
-                        <ellipse class="wing wing-left-bottom" cx="38" cy="60" rx="12" ry="18" transform="rotate(-20 38 60)"/>
-
-                        <!-- Right wings -->
-                        <ellipse class="wing wing-right-top" cx="65" cy="40" rx="18" ry="25" transform="rotate(30 65 40)"/>
-                        <ellipse class="wing wing-right-bottom" cx="62" cy="60" rx="12" ry="18" transform="rotate(20 62 60)"/>
-
-                        <!-- Body -->
-                        <ellipse class="body" cx="50" cy="50" rx="4" ry="20"/>
-
-                        <!-- Antennae -->
-                        <path class="antenna" d="M 50 35 Q 45 25 42 20" stroke-width="1.5" fill="none"/>
-                        <path class="antenna" d="M 50 35 Q 55 25 58 20" stroke-width="1.5" fill="none"/>
-                    </g>
-                </svg></span>ckflauder
-            </h1>
-            <p class="tagline">Transforming ideas into digital reality</p>
-            <div class="cta-buttons">
-                <a href="#services" class="btn btn-primary">Our Services</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <span>↓</span>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">💻</div>
-                    <h3>Custom Software Development</h3>
-                    <p>Tailored software solutions built to meet your unique business needs. From web applications to enterprise systems, we craft scalable and maintainable code.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Data Analysis</h3>
-                    <p>Transform raw data into actionable insights. We help you make data-driven decisions through advanced analytics, visualization, and reporting.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">🚀</div>
-                    <h3>Digital Consulting</h3>
-                    <p>Strategic guidance for your digital transformation journey. We help optimize processes, select the right technologies, and plan for sustainable growth.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">🔧</div>
-                    <h3>Technical Solutions</h3>
-                    <p>API development, system integration, automation, and more. We solve complex technical challenges with elegant, efficient solutions.</p>
+    <!-- PAGE CONTENT (Scrollable) -->
+    <div id="page-content">
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container">
+                <h1 class="logo-title">flickflauder</h1>
+                <p class="tagline">Ideen in digitale Realität verwandeln</p>
+                <div class="cta-buttons">
+                    <a href="#services" class="btn btn-primary">Unsere Leistungen</a>
+                    <a href="#contact" class="btn btn-secondary">Kontakt aufnehmen</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About Flickflauder</h2>
-            <div class="about-content">
-                <p class="lead">Like a butterfly's transformation, we help your business evolve through technology.</p>
-                <p>Flickflauder combines technical expertise with creative problem-solving to deliver solutions that make a real difference. Whether you're a startup finding your wings or an established company ready to soar, we're here to help you navigate the digital landscape.</p>
-                <p>We believe in clean code, clear communication, and lasting partnerships. Every project is an opportunity to create something remarkable together.</p>
+            <div class="scroll-indicator">
+                <span>↓</span>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Let's Work Together</h2>
-            <p class="contact-intro">Ready to start your next project? Get in touch and let's discuss how we can help.</p>
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Unsere Leistungen</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3>Individuelle Softwareentwicklung</h3>
+                        <p>Maßgeschneiderte Softwarelösungen für Ihre individuellen Geschäftsanforderungen. Von Webanwendungen bis zu Unternehmenssystemen entwickeln wir skalierbaren und wartbaren Code.</p>
+                    </div>
 
-            <div class="contact-methods">
-                <div class="contact-card">
-                    <div class="contact-icon">📧</div>
-                    <h3>Email</h3>
-                    <a href="mailto:hello@flickflauder.com">hello@flickflauder.com</a>
-                </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <h3>Datenanalyse</h3>
+                        <p>Verwandeln Sie Rohdaten in umsetzbare Erkenntnisse. Wir unterstützen Sie bei datenbasierten Entscheidungen durch fortgeschrittene Analysen, Visualisierung und Reporting.</p>
+                    </div>
 
-                <div class="contact-card">
-                    <div class="contact-icon">💬</div>
-                    <h3>Let's Talk</h3>
-                    <p>Schedule a free consultation to discuss your project needs and how we can help.</p>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3>Digitale Beratung</h3>
+                        <p>Strategische Begleitung auf Ihrem Weg der digitalen Transformation. Wir helfen Ihnen, Prozesse zu optimieren, die richtigen Technologien auszuwählen und nachhaltiges Wachstum zu planen.</p>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <h3>Technische Lösungen</h3>
+                        <p>API-Entwicklung, Systemintegration, Automatisierung und mehr. Wir lösen komplexe technische Herausforderungen mit eleganten, effizienten Lösungen.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Flickflauder. All rights reserved.</p>
-            <p class="footer-tagline">Crafted with care</p>
-        </div>
-    </footer>
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>Über Flickflauder</h2>
+                <div class="about-content">
+                    <p class="lead">Wie die Verwandlung eines Schmetterlings helfen wir Ihrem Unternehmen, sich durch Technologie weiterzuentwickeln.</p>
+                    <p>Flickflauder verbindet technisches Fachwissen mit kreativer Problemlösung, um Lösungen zu liefern, die einen echten Unterschied machen. Ob Sie ein Start-up sind, das seine Flügel entdeckt, oder ein etabliertes Unternehmen, das bereit ist aufzusteigen – wir begleiten Sie durch die digitale Landschaft.</p>
+                    <p>Wir glauben an sauberen Code, klare Kommunikation und dauerhafte Partnerschaften. Jedes Projekt ist eine Gelegenheit, gemeinsam etwas Bemerkenswertes zu schaffen.</p>
+                </div>
+            </div>
+        </section>
 
-    <script src="script.js"></script>
-    <script type="module" src="butterfly-integration.js"></script>
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Lassen Sie uns zusammenarbeiten</h2>
+                <p class="contact-intro">Bereit, Ihr nächstes Projekt zu starten? Nehmen Sie Kontakt auf und lassen Sie uns besprechen, wie wir helfen können.</p>
+
+                <div class="contact-methods">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <h3>E-Mail</h3>
+                        <a href="mailto:hello@flickflauder.com">hello@flickflauder.com</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h3>Gespräch vereinbaren</h3>
+                        <p>Vereinbaren Sie ein kostenloses Beratungsgespräch, um Ihre Projektanforderungen zu besprechen und wie wir helfen können.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2025 Flickflauder. Alle Rechte vorbehalten.</p>
+                <p class="footer-tagline">Mit Sorgfalt gestaltet</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const field = document.getElementById('flower-field');
+        const count = 25; // Perfect balance for calm, elegant animation
+
+        // Three flower types for variety
+        const flowerTypes = [
+            {
+                name: 'daisy',
+                petals: 5,
+                svg: `<svg class="flower-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="5" fill="#ffd700"/>
+                    <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor"/>
+                    <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(72 50 50)"/>
+                    <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(144 50 50)"/>
+                    <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(216 50 50)"/>
+                    <path d="M50 5 Q65 30 50 50 Q35 30 50 5" fill="currentColor" transform="rotate(288 50 50)"/>
+                </svg>`
+            },
+            {
+                name: 'simple',
+                petals: 4,
+                svg: `<svg class="flower-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="6" fill="#ffd700"/>
+                    <ellipse cx="50" cy="25" rx="12" ry="20" fill="currentColor"/>
+                    <ellipse cx="75" cy="50" rx="20" ry="12" fill="currentColor"/>
+                    <ellipse cx="50" cy="75" rx="12" ry="20" fill="currentColor"/>
+                    <ellipse cx="25" cy="50" rx="20" ry="12" fill="currentColor"/>
+                </svg>`
+            },
+            {
+                name: 'star',
+                petals: 6,
+                svg: `<svg class="flower-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="5" fill="#ffd700"/>
+                    <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor"/>
+                    <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(60 50 50)"/>
+                    <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(120 50 50)"/>
+                    <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(180 50 50)"/>
+                    <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(240 50 50)"/>
+                    <path d="M50 10 Q58 35 50 50 Q42 35 50 10" fill="currentColor" transform="rotate(300 50 50)"/>
+                </svg>`
+            }
+        ];
+
+        // Pastel color palette
+        const colors = ['var(--lavender)', 'var(--peach)', 'var(--mint)', 'var(--coral)'];
+
+        for(let i=0; i<count; i++) {
+            const container = document.createElement('div');
+            container.className = 'flower';
+
+            // Random angle and distance for distribution
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 130 + Math.random() * 260;
+            const xEnd = Math.cos(angle) * distance + 'vw';
+            const yEnd = Math.sin(angle) * distance + 'vh';
+
+            // Set custom properties
+            container.style.setProperty('--x-start', (Math.random() * 10 - 5) + 'vw');
+            container.style.setProperty('--y-start', (Math.random() * 10 - 5) + 'vh');
+            container.style.setProperty('--x-end', xEnd);
+            container.style.setProperty('--y-end', yEnd);
+
+            // Random pastel color
+            container.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            // Varied timing
+            container.style.animationDuration = (7 + Math.random() * 7) + 's';
+            container.style.animationDelay = -(Math.random() * 15) + 's';
+
+            // Random flower type
+            const flowerType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+            container.innerHTML = flowerType.svg;
+
+            field.appendChild(container);
+        }
+    </script>
 </body>
 </html>

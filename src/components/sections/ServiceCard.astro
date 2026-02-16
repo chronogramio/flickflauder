@@ -1,0 +1,23 @@
+---
+/**
+ * ServiceCard Component
+ * Individual service card with icon, title, and description
+ */
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  class?: string;
+}
+
+const { icon, title, description, class: className = '' } = Astro.props;
+---
+
+<div class={`service-card ${className}`}>
+  <div class="service-icon">
+    <i class={icon}></i>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>

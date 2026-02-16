@@ -1,0 +1,56 @@
+---
+/**
+ * ServicesGrid Component
+ * Grid of service cards
+ */
+
+import SectionHeading from '../ui/SectionHeading.astro';
+import ServiceCard from './ServiceCard.astro';
+import { t, type Language } from '../../utils/i18n';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'de' } = Astro.props;
+
+const services = [
+  {
+    icon: 'fa-solid fa-code',
+    titleKey: 'services.software.title',
+    descriptionKey: 'services.software.description',
+  },
+  {
+    icon: 'fa-solid fa-chart-line',
+    titleKey: 'services.data.title',
+    descriptionKey: 'services.data.description',
+  },
+  {
+    icon: 'fa-solid fa-lightbulb',
+    titleKey: 'services.consulting.title',
+    descriptionKey: 'services.consulting.description',
+  },
+  {
+    icon: 'fa-solid fa-screwdriver-wrench',
+    titleKey: 'services.technical.title',
+    descriptionKey: 'services.technical.description',
+  },
+];
+---
+
+<section id="services" class="services">
+  <div class="container">
+    <SectionHeading>{t(lang, 'services.title')}</SectionHeading>
+    <div class="services-grid">
+      {
+        services.map((service) => (
+          <ServiceCard
+            icon={service.icon}
+            title={t(lang, service.titleKey)}
+            description={t(lang, service.descriptionKey)}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

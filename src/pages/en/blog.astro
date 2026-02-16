@@ -1,0 +1,63 @@
+---
+/**
+ * English Blog Listing Page
+ */
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import BlogCard from '../../components/sections/BlogCard.astro';
+import { t } from '../../utils/i18n';
+
+const lang = 'en';
+const title = 'Blog - Flickflauder';
+const description = 'Articles and insights on software development and digital transformation.';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => post.data.lang === lang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={title} description={description} lang={lang} butterflySize="small" butterflyProminent={false} flowerIntensity="low">
+  <section class="blog-page">
+    <div class="container">
+      <SectionHeading>{t(lang, 'blog.title')}</SectionHeading>
+      {
+        posts.length === 0 ? (
+          <p class="no-posts">No blog posts yet.</p>
+        ) : (
+          <div class="blog-grid">
+            {posts.map((post) => (
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                tags={post.data.tags}
+                slug={post.slug}
+                lang={lang}
+              />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-page {
+    padding: 5rem 0;
+    background: white;
+    min-height: 60vh;
+  }
+  .blog-grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .no-posts {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3rem 0;
+  }
+</style>
