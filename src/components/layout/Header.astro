@@ -1,7 +1,7 @@
 ---
 /**
  * Header Component
- * Navigation with language switcher
+ * Minimal, clean navigation that blends with the hero section
  */
 
 import LanguagePicker from './LanguagePicker.astro';
@@ -16,8 +16,7 @@ const { lang = 'de' } = Astro.props;
 const navItems =
   lang === 'de'
     ? [
-        { href: '/', label: 'Startseite' },
-        { href: '/dienstleistungen', label: 'Leistungen' },
+        { href: '/', label: 'Home' },
         { href: '/uber-mich', label: 'Über mich' },
         { href: '/portfolio', label: 'Portfolio' },
         { href: '/blog', label: 'Blog' },
@@ -25,8 +24,7 @@ const navItems =
       ]
     : [
         { href: '/en', label: 'Home' },
-        { href: '/en/services', label: 'Services' },
-        { href: '/en/about', label: 'About Me' },
+        { href: '/en/about', label: 'About' },
         { href: '/en/portfolio', label: 'Portfolio' },
         { href: '/en/blog', label: 'Blog' },
         { href: '/en/contact', label: 'Contact' },
@@ -38,15 +36,9 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="container">
     <nav class="main-nav">
-      <a href={lang === 'de' ? '/' : '/en'} class="logo">
-        <span class="color-lavender">flick</span><span class="color-peach"
-          >flauder</span
-        >
-      </a>
-
       <!-- Mobile menu toggle -->
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
-        <i class="fas fa-bars"></i>
+        <span class="hamburger"></span>
       </button>
 
       <!-- Navigation links -->
@@ -63,7 +55,7 @@ const currentPath = Astro.url.pathname;
             </li>
           ))
         }
-        <li>
+        <li class="lang-item">
           <LanguagePicker lang={lang} currentPath={currentPath} />
         </li>
       </ul>
@@ -73,40 +65,78 @@ const currentPath = Astro.url.pathname;
 
 <style>
   .site-header {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     padding: 1.5rem 0;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .main-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  .logo {
-    font-size: 1.8rem;
-    font-weight: 600;
-    text-decoration: none;
-    letter-spacing: -0.02em;
+    justify-content: center;
   }
 
   .mobile-menu-toggle {
     display: none;
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
     background: none;
     border: none;
-    font-size: 1.5rem;
-    color: var(--text-primary);
     cursor: pointer;
+    z-index: 101;
+    padding: 0.5rem;
+  }
+
+  .hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .hamburger::before {
+    top: -8px;
+  }
+
+  .hamburger::after {
+    top: 8px;
+  }
+
+  .mobile-menu-toggle.open .hamburger {
+    background: transparent;
+  }
+
+  .mobile-menu-toggle.open .hamburger::before {
+    transform: rotate(45deg) translate(5px, 6px);
+  }
+
+  .mobile-menu-toggle.open .hamburger::after {
+    transform: rotate(-45deg) translate(5px, -6px);
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -116,6 +146,7 @@ const currentPath = Astro.url.pathname;
     text-decoration: none;
     color: var(--text-secondary);
     font-weight: 400;
+    font-size: 0.95rem;
     transition: color var(--transition-normal);
     position: relative;
   }
@@ -128,47 +159,68 @@ const currentPath = Astro.url.pathname;
   .nav-links a.active::after {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: -6px;
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--gradient-primary);
+    background: var(--lavender);
     border-radius: 2px;
+  }
+
+  .lang-item {
+    margin-left: 0.5rem;
   }
 
   /* Mobile responsive */
   @media (max-width: 768px) {
+    .site-header {
+      padding: 1rem 0;
+    }
+
     .mobile-menu-toggle {
       display: block;
     }
 
     .nav-links {
-      position: absolute;
-      top: 100%;
+      position: fixed;
+      top: 0;
       left: 0;
       right: 0;
+      bottom: 0;
       background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px);
       flex-direction: column;
-      gap: 0;
-      padding: 1rem 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      display: none;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
 
     .nav-links.open {
-      display: flex;
+      opacity: 1;
+      pointer-events: all;
     }
 
-    .nav-links li {
-      width: 100%;
-      text-align: center;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    .nav-links a {
+      font-size: 1.3rem;
     }
 
-    .nav-links li:last-child {
-      border-bottom: none;
+    .lang-item {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+
+  /* Add padding to body to prevent content from hiding under fixed header */
+  :global(body) {
+    padding-top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    :global(body) {
+      padding-top: 70px;
     }
   }
 </style>
@@ -181,6 +233,7 @@ const currentPath = Astro.url.pathname;
 
     if (toggle && navLinks) {
       toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
         navLinks.classList.toggle('open');
       });
 
@@ -188,8 +241,22 @@ const currentPath = Astro.url.pathname;
       const links = navLinks.querySelectorAll('a');
       links.forEach((link) => {
         link.addEventListener('click', () => {
+          toggle.classList.remove('open');
           navLinks.classList.remove('open');
         });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (
+          !toggle.contains(target) &&
+          !navLinks.contains(target) &&
+          navLinks.classList.contains('open')
+        ) {
+          toggle.classList.remove('open');
+          navLinks.classList.remove('open');
+        }
       });
     }
   };
