@@ -1,0 +1,441 @@
+---
+/**
+ * ChatWidget
+ * Floating chat launcher + panel that talks to the self-hosted chat server.
+ * The backend URL comes from PUBLIC_CHAT_API_URL (build-time), defaulting to
+ * the local dev server.
+ */
+const apiBase = import.meta.env.PUBLIC_CHAT_API_URL || 'http://localhost:8787';
+const apiUrl = `${apiBase.replace(/\/$/, '')}/chat`;
+---
+
+<div id="ff-chat" data-api={apiUrl}>
+  <button id="ff-chat-launcher" type="button" aria-expanded="false" aria-controls="ff-chat-panel">
+    <span class="ff-dot" aria-hidden="true"></span>
+    <span>KI-Agent fragen</span>
+  </button>
+
+  <section id="ff-chat-panel" role="dialog" aria-label="Chat mit dem flickflauder-Agenten" hidden>
+    <header class="ff-chat-head">
+      <span class="ff-avatar" aria-hidden="true">ff</span>
+      <div class="ff-head-text">
+        <p class="ff-chat-title">flickflauder · KI-Agent</p>
+        <p class="ff-chat-sub"><span class="ff-live" aria-hidden="true"></span>Sagt ehrlich, ob KI für Sie passt</p>
+      </div>
+      <button id="ff-chat-close" type="button" aria-label="Schliessen">×</button>
+    </header>
+
+    <div id="ff-chat-log" class="ff-chat-log" aria-live="polite"></div>
+
+    <div id="ff-chat-suggest" class="ff-chat-suggest">
+      <button type="button" data-q="Wie arbeitet Pascal?">Wie arbeitet Pascal?</button>
+      <button type="button" data-q="Passt ein KI-Agent für unser Unternehmen?">Passt ein KI-Agent für uns?</button>
+      <button type="button" data-q="Wie sieht ein erster Schritt aus?">Ein erster Schritt?</button>
+    </div>
+
+    <form id="ff-chat-form" class="ff-chat-form">
+      <textarea id="ff-chat-input" rows="1" placeholder="Ihre Frage …" autocomplete="off"></textarea>
+      <button type="submit" id="ff-chat-send" aria-label="Senden">→</button>
+    </form>
+  </section>
+</div>
+
+<style>
+  #ff-chat {
+    --paper: #f7f6f3;
+    --ink: #1c1a17;
+    --ink-soft: #57534d;
+    --ink-faint: #9a948b;
+    --rule: rgba(28, 26, 23, 0.12);
+    --serif: 'Source Serif 4', Georgia, serif;
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 1000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* ---- Launcher ---- */
+  #ff-chat-launcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 999px;
+    padding: 0.65rem 1.05rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    box-shadow: 0 6px 22px rgba(28, 26, 23, 0.2);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  #ff-chat-launcher:hover { background: #000; transform: translateY(-2px); }
+
+  .ff-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #8fd1a8;
+    box-shadow: 0 0 0 0 rgba(143, 209, 168, 0.7);
+    animation: ff-pulse 2.2s ease-out infinite;
+  }
+  @keyframes ff-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(143, 209, 168, 0.6); }
+    70% { box-shadow: 0 0 0 7px rgba(143, 209, 168, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(143, 209, 168, 0); }
+  }
+
+  /* ---- Panel ---- */
+  #ff-chat-panel {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: min(384px, calc(100vw - 2rem));
+    height: auto;
+    max-height: min(600px, calc(100vh - 2.5rem));
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    box-shadow: 0 18px 50px rgba(28, 26, 23, 0.24);
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: ff-in 0.22s ease;
+  }
+  @keyframes ff-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* ---- Header ---- */
+  .ff-chat-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ff-avatar {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ff-head-text { flex: 1; min-width: 0; }
+  .ff-chat-title {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+  .ff-chat-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    margin: 0.1rem 0 0;
+  }
+  .ff-live {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #8fd1a8; flex-shrink: 0;
+  }
+  #ff-chat-close {
+    background: none; border: none;
+    font-size: 1.4rem; line-height: 1;
+    color: var(--ink-faint); cursor: pointer; padding: 0 0.15rem;
+  }
+  #ff-chat-close:hover { color: var(--ink); }
+
+  /* ---- Log + bubbles ---- */
+  .ff-chat-log {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .ff-msg {
+    max-width: 84%;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 0.5rem 0.7rem;
+  }
+  .ff-msg.user {
+    align-self: flex-end;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 13px 13px 3px 13px;
+  }
+  .ff-msg.bot {
+    align-self: flex-start;
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 13px 13px 13px 3px;
+  }
+  .ff-msg.bot.streaming::after {
+    content: '▍';
+    margin-left: 1px;
+    color: var(--ink-faint);
+    animation: ff-blink 1s steps(2, jump-none) infinite;
+  }
+  @keyframes ff-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+  /* typing dots */
+  .ff-msg.typing { display: flex; gap: 4px; align-items: center; }
+  .ff-msg.typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ink-faint);
+    animation: ff-bounce 1.2s infinite ease-in-out;
+  }
+  .ff-msg.typing span:nth-child(2) { animation-delay: 0.15s; }
+  .ff-msg.typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes ff-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* ---- Suggestion chips ---- */
+  .ff-chat-suggest {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0 0.9rem 0.7rem;
+  }
+  .ff-chat-suggest button {
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .ff-chat-suggest button:hover {
+    background: #fff;
+    border-color: var(--ink-faint);
+    color: var(--ink);
+  }
+
+  /* ---- Composer ---- */
+  .ff-chat-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.45rem;
+    padding: 0.6rem;
+    border-top: 1px solid var(--rule);
+  }
+  #ff-chat-input {
+    flex: 1;
+    resize: none;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--ink);
+    background: #fff;
+    max-height: 110px;
+  }
+  #ff-chat-input:focus { outline: none; border-color: var(--ink-faint); }
+  #ff-chat-send {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 8px;
+    width: 38px;
+    height: 36px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  #ff-chat-send:disabled { opacity: 0.4; cursor: default; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #ff-chat-launcher, #ff-chat-panel, .ff-dot, .ff-msg.typing span, .ff-msg.bot.streaming::after { animation: none; transition: none; }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('ff-chat');
+  if (root) {
+    const apiUrl = root.dataset.api;
+    const launcher = document.getElementById('ff-chat-launcher');
+    const panel = document.getElementById('ff-chat-panel');
+    const closeBtn = document.getElementById('ff-chat-close');
+    const log = document.getElementById('ff-chat-log');
+    const suggest = document.getElementById('ff-chat-suggest');
+    const form = document.getElementById('ff-chat-form');
+    const input = document.getElementById('ff-chat-input');
+    const sendBtn = document.getElementById('ff-chat-send');
+
+    const history = [];
+    let busy = false;
+    let greeted = false;
+
+    const scroll = () => { log.scrollTop = log.scrollHeight; };
+
+    function addMessage(role, text) {
+      const el = document.createElement('div');
+      el.className = `ff-msg ${role === 'user' ? 'user' : 'bot'}`;
+      el.textContent = text;
+      log.appendChild(el);
+      scroll();
+      return el;
+    }
+
+    function addTyping() {
+      const el = document.createElement('div');
+      el.className = 'ff-msg bot typing';
+      el.innerHTML = '<span></span><span></span><span></span>';
+      log.appendChild(el);
+      scroll();
+      return el;
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      launcher.setAttribute('aria-expanded', 'true');
+      launcher.style.display = 'none';
+      input.focus();
+      if (!greeted) {
+        greeted = true;
+        addMessage(
+          'bot',
+          'Guten Tag. Ich beantworte Fragen dazu, wie Pascal KI-Systeme baut und betreibt — und sage Ihnen offen, ob ein KI-Agent für Ihren Fall der richtige Weg ist.'
+        );
+      }
+    }
+
+    function closePanel() {
+      panel.hidden = true;
+      launcher.setAttribute('aria-expanded', 'false');
+      launcher.style.display = '';
+    }
+
+    launcher.addEventListener('click', openPanel);
+    closeBtn.addEventListener('click', closePanel);
+
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 110) + 'px';
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+
+    suggest.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-q]');
+      if (btn) send(btn.dataset.q);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      send(input.value);
+    });
+
+    async function send(raw) {
+      const text = (raw || '').trim();
+      if (!text || busy) return;
+
+      busy = true;
+      sendBtn.disabled = true;
+      input.value = '';
+      input.style.height = 'auto';
+      if (suggest) suggest.remove();
+
+      addMessage('user', text);
+      history.push({ role: 'user', content: text });
+
+      const typingEl = addTyping();
+      let botEl = null;
+      let answer = '';     // everything received so far
+      let shown = 0;       // characters revealed so far
+      let streamDone = false;
+
+      const ensureBubble = () => {
+        if (!botEl) {
+          if (typingEl.isConnected) typingEl.remove();
+          botEl = addMessage('bot', '');
+          botEl.classList.add('streaming');
+        }
+      };
+
+      // Typewriter reveal — decouples display from bursty network delivery.
+      // Steady ~55 cps when trickling; speeds up when a backlog builds so it
+      // never lags far behind, capped so it still reads smoothly.
+      let resolveDone;
+      const finished = new Promise((r) => (resolveDone = r));
+      let last = performance.now();
+      const reveal = (now) => {
+        const dt = (now - last) / 1000;
+        last = now;
+        if (botEl) {
+          const remaining = answer.length - shown;
+          if (remaining > 0) {
+            const cps = Math.min(220, 55 + remaining * 1.5);
+            shown = Math.min(answer.length, shown + Math.max(1, Math.round(cps * dt)));
+            botEl.textContent = answer.slice(0, shown);
+            scroll();
+          }
+        }
+        if (streamDone && shown >= answer.length) {
+          resolveDone();
+          return;
+        }
+        requestAnimationFrame(reveal);
+      };
+      requestAnimationFrame(reveal);
+
+      try {
+        const resp = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history }),
+        });
+        if (!resp.ok || !resp.body) throw new Error(`HTTP ${resp.status}`);
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          answer += decoder.decode(value, { stream: true });
+          ensureBubble();
+        }
+      } catch (err) {
+        answer = answer || 'Entschuldigung — die Verbindung ist gerade nicht verfügbar. Schreiben Sie Pascal gerne direkt: pascal@flickflauder.com';
+        ensureBubble();
+      } finally {
+        streamDone = true;
+        await finished;
+        if (typingEl.isConnected) typingEl.remove();
+        if (botEl) botEl.classList.remove('streaming');
+        if (answer.trim()) history.push({ role: 'assistant', content: answer });
+        busy = false;
+        sendBtn.disabled = false;
+        scroll();
+      }
+    }
+  }
+</script>

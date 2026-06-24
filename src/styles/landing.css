@@ -1,0 +1,59 @@
+/*
+ * Landing page design system
+ * Shared tokens + primitives for the root index.astro redesign.
+ * Kept separate from the legacy multi-page styles in global.css.
+ */
+
+:root {
+  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --ink: #1c1a17;
+  --ink-soft: #57534d;
+  --ink-faint: #9a948b;
+  --rule: rgba(28, 26, 23, 0.1);
+  --paper: #f7f6f3;
+  --measure: 900px;
+  --col-label: 200px;
+  /* Side gutter used by every centered wrap; tightens on small screens. */
+  --gutter: 4rem;
+}
+
+/* Reusable centered column. */
+.landing-wrap {
+  width: min(var(--measure), 100% - var(--gutter));
+  margin-inline: auto;
+}
+
+/* ==================== REVEAL ANIMATION ==================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 720px) {
+  :root {
+    --gutter: 2.6rem;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+</content>
+</invoke>

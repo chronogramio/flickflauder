@@ -1,0 +1,46 @@
+---
+/**
+ * AgentSection — the inline chat console with its lead-in line.
+ */
+import ChatInline from '../ChatInline.astro';
+
+interface Props {
+  id?: string;
+  line?: string;
+}
+
+const { id = 'agent', line = 'Fragen Sie den Agenten.' } = Astro.props;
+---
+
+<section id={id}>
+  <div class="agent-wrap reveal">
+    <p class="agent-line">{line}</p>
+    <ChatInline />
+  </div>
+</section>
+
+<style>
+  section {
+    min-height: 95vh;
+    min-height: 95svh;
+    display: flex;
+    align-items: center;
+    padding: clamp(2.5rem, 6vw, 5rem) 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .agent-wrap {
+    width: min(820px, 100% - var(--gutter));
+    margin-inline: auto;
+  }
+
+  .agent-line {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 1.25rem;
+  }
+</style>
+</content>

@@ -1,32 +1,80 @@
 ---
-/**
- * German Homepage
- * Main landing page with hero, services, about, and contact
- */
-
+import '../styles/landing.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroSection from '../components/sections/HeroSection.astro';
-import ServicesGrid from '../components/sections/ServicesGrid.astro';
-import AboutSection from '../components/sections/AboutSection.astro';
-import ContactSection from '../components/sections/ContactSection.astro';
-import { t } from '../utils/i18n';
-
-const lang = 'de';
-const title = 'Flickflauder - Individuelle Softwareentwicklung & Datenanalyse';
-const description =
-  'Individuelle Softwareentwicklung, Datenanalyse und digitale Beratung. Transformieren Sie Ihr Unternehmen mit erstklassigen technischen Lösungen.';
+import Hero from '../components/landing/Hero.astro';
+import Lead from '../components/landing/Lead.astro';
+import NumberedSection from '../components/landing/NumberedSection.astro';
+import AgentSection from '../components/landing/AgentSection.astro';
+import ContactSection from '../components/landing/ContactSection.astro';
+import SiteFooter from '../components/landing/SiteFooter.astro';
 ---
 
 <BaseLayout
-  title={title}
-  description={description}
-  lang={lang}
-  butterflySize="large"
-  butterflyProminent={true}
-  flowerIntensity="medium"
+  title="flickflauder — KI-Beratung für Unternehmen"
+  description="KI-Systeme, die im Produktivbetrieb verlässlich funktionieren. Beratung für Unternehmen durch Pascal Roos."
+  lang="de"
 >
-  <HeroSection lang={lang} />
-  <ServicesGrid lang={lang} />
-  <AboutSection lang={lang} />
-  <ContactSection lang={lang} />
+  <Hero />
+
+  <Lead>
+    Die meisten KI-Projekte scheitern nicht an der Technik. Sie scheitern am Weg von der Demo in den
+    Alltag — wenn Qualität nicht messbar ist, Verantwortung unklar bleibt und niemand belegen kann, was
+    das System entschieden hat. Diese Arbeit übernehme ich.
+  </Lead>
+
+  <NumberedSection num="01" label="Wie ich arbeite" id="arbeitsweise">
+    <p>Ich baue Systeme, die im Dauereinsatz bestehen, nicht nur in der Vorführung. Sie laufen auf Ihrer eigenen Infrastruktur, Ihre Daten bleiben im Haus. Wichtige Entscheidungen trifft am Ende ein Mensch, nicht das Modell allein: mit klaren Schwellenwerten, geregelten Freigaben und einer Dokumentation, die jede Prüfung übersteht.</p>
+    <p>Ich gehe in kleinen Schritten vor. Jeder zeigt ein Ergebnis, bevor wir den nächsten besprechen.</p>
+  </NumberedSection>
+
+  <NumberedSection num="02" label="Wer dahintersteht" id="wer">
+    <p>Ich entwickle selbst. Wer das System baut und betreibt, ist dieselbe Person, mit der Sie sprechen — kein Team im Hintergrund. Dazu kommen containerisierte Infrastruktur, solides Agenten- und Prompt-Engineering und die Erfahrung, wo Systeme im Betrieb wirklich versagen.</p>
+  </NumberedSection>
+
+  <NumberedSection num="03" label="Über mich" id="ueber-mich">
+    <p>Pascal Roos. Zwanzig Jahre in der Praxis: Systeme gebaut, betrieben und dabei gelernt, was im Betrieb trägt und was nicht. Keine Beraterfirma, kein Team, sondern ein Spezialist, der sich jeweils einem Mandat widmet.</p>
+    <p>Technische Tiefe gerne im Gespräch.</p>
+  </NumberedSection>
+
+  <NumberedSection num="04" label="Ein erster Schritt" id="erster-schritt">
+    <p>Ein klar umrissener Prozess, sauber umgesetzt auf Ihrer Infrastruktur. Sie sehen das Ergebnis und können es beurteilen, bevor wir über weitere Schritte sprechen. Was das für Sie konkret heisst, klären wir im Gespräch.</p>
+  </NumberedSection>
+
+  <AgentSection />
+
+  <ContactSection />
+
+  <SiteFooter />
+
+  <!-- Popup variant kept for comparison; disabled during the inline trial. -->
+  <!-- <ChatWidget /> -->
 </BaseLayout>
+
+<script>
+  const reveal = () => {
+    const items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach((el) => el.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+    );
+    items.forEach((el) => io.observe(el));
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', reveal);
+  } else {
+    reveal();
+  }
+</script>
+</content>

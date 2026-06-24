@@ -1,0 +1,47 @@
+---
+/**
+ * SiteFooter — landing page footer (brand + meta).
+ */
+interface Props {
+  brand?: string;
+  meta?: string;
+}
+
+const { brand = 'flickflauder', meta = 'Pascal Roos · KI-Beratung' } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="footer-inner landing-wrap">
+    <span class="footer-brand">{brand}</span>
+    <span class="footer-meta">{meta}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: 2.5rem 0;
+  }
+
+  .footer-inner {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer-brand {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+
+  .footer-meta {
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+</style>
+</content>

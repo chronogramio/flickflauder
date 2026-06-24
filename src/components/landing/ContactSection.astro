@@ -1,0 +1,77 @@
+---
+/**
+ * ContactSection — closing CTA with email.
+ */
+interface Props {
+  id?: string;
+  title?: string;
+  key?: string;
+  email?: string;
+}
+
+const {
+  id = 'kontakt',
+  title = 'Gespräch vereinbaren',
+  key = 'Ich sage Ihnen offen, ob ein KI-Agent für Ihren Fall der richtige Weg ist — oder nicht.',
+  email = 'pascal@flickflauder.com',
+} = Astro.props;
+---
+
+<section id={id}>
+  <div class="cta-section landing-wrap reveal">
+    <h2 class="cta-title">{title}</h2>
+    <p class="cta-key">{key}</p>
+    <a href={`mailto:${email}`} class="cta-mail">{email}</a>
+  </div>
+</section>
+
+<style>
+  section {
+    background: transparent;
+    padding: 0;
+  }
+
+  .cta-section {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    border-top: 1px solid var(--rule);
+    padding: clamp(4rem, 9vw, 7rem) 0;
+  }
+
+  .cta-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .cta-key {
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 36ch;
+    margin: 0;
+  }
+
+  .cta-mail {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink-faint);
+    padding-bottom: 2px;
+    transition: border-color var(--transition-normal);
+    word-break: break-word;
+  }
+
+  .cta-mail:hover {
+    border-color: var(--ink);
+  }
+</style>
+</content>

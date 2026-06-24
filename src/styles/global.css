@@ -59,14 +59,9 @@ html {
   overflow-x: hidden;
 }
 
-/* Background gradient (fixed) */
+/* Background */
 body {
-  background: radial-gradient(
-    circle at center,
-    #f5f0fa 0%,
-    #fef5f1 40%,
-    #e8f7f0 100%
-  );
+  background: #f7f6f3;
   background-attachment: fixed;
 }
 

@@ -4,25 +4,16 @@
  * Global wrapper for all pages - handles SEO, meta tags, and animations
  */
 
-import Butterfly from '../components/animations/Butterfly.astro';
-import FlowerField from '../components/animations/FlowerField.astro';
-
 interface Props {
   title: string;
   description: string;
   lang?: 'de' | 'en';
-  butterflySize?: 'small' | 'medium' | 'large';
-  butterflyProminent?: boolean;
-  flowerIntensity?: 'low' | 'medium' | 'high';
 }
 
 const {
   title,
   description,
   lang = 'de',
-  butterflySize = 'medium',
-  butterflyProminent = false,
-  flowerIntensity = 'medium',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -48,6 +39,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&display=swap"
+    />
 
     <!-- Font Awesome -->
     <link
@@ -83,10 +82,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="stylesheet" href="/src/styles/utilities.css" />
   </head>
   <body>
-    <!-- Background animations (fixed) -->
-    <FlowerField intensity={flowerIntensity} />
-    <Butterfly size={butterflySize} prominent={butterflyProminent} />
-
     <!-- Page content wrapper (scrollable) -->
     <div id="page-content">
       <main>

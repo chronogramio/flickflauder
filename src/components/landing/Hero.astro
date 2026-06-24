@@ -1,0 +1,143 @@
+---
+/**
+ * Hero — full-height opening section with animated flower field + butterfly.
+ */
+import Butterfly from '../animations/Butterfly.astro';
+import FlowerField from '../animations/FlowerField.astro';
+
+interface Props {
+  claim?: string;
+  claimSub?: string;
+  sub?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  claim = 'KI einzusetzen ist einfach.',
+  claimSub = 'Schwierig ist es, sie sauber und nachvollziehbar zu betreiben.',
+  sub = 'KI-Beratung für Unternehmen, die sich auf ihre Systeme verlassen müssen.',
+  ctaLabel = 'Gespräch vereinbaren',
+  ctaHref = '#kontakt',
+} = Astro.props;
+---
+
+<section id="hero">
+  <FlowerField intensity="low" />
+  <Butterfly size="large" prominent={true} />
+  <div class="container hero-inner reveal">
+    <h1 class="hero-claim">
+      {claim}<br />
+      <span>{claimSub}</span>
+    </h1>
+    <p class="hero-sub">{sub}</p>
+    <a href={ctaHref} class="hero-cta">{ctaLabel}</a>
+  </div>
+</section>
+
+<style>
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: transparent;
+    padding: 2rem 0;
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .hero-claim {
+    font-family: var(--serif);
+    font-size: clamp(2.1rem, 5.2vw, 3.9rem);
+    font-weight: 500;
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    max-width: 16ch;
+    margin: 0;
+  }
+
+  .hero-claim span {
+    display: inline-block;
+    margin-top: 0.35em;
+    color: var(--ink-soft);
+    font-size: 0.62em;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    max-width: 30ch;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    font-weight: 400;
+    max-width: 40ch;
+    margin: 0;
+  }
+
+  .hero-cta {
+    margin-top: 0.75rem;
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: var(--paper);
+    background: var(--ink);
+    border-radius: 2px;
+    transition: background var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .hero-cta:hover {
+    background: #000;
+    transform: translateY(-2px);
+  }
+
+  /* Butterfly: lower-right, smaller */
+  #hero :global(.butterfly-chase) {
+    top: 70%;
+    left: 75%;
+  }
+
+  #hero :global(.butterfly-orientation) {
+    transform: rotateX(65deg) scale(0.65);
+  }
+
+  /* On narrow screens the butterfly's right-edge position clipped it out of
+     view; pull it toward center and scale it up so it stays fully visible. */
+  @media (max-width: 600px) {
+    #hero :global(.butterfly-chase) {
+      top: 76%;
+      left: 50%;
+    }
+
+    #hero :global(.butterfly-orientation) {
+      transform: rotateX(65deg) scale(0.85);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-sub {
+      font-size: 1rem;
+    }
+
+    .hero-cta {
+      padding: 0.9rem 2.2rem;
+    }
+  }
+</style>
+</content>
