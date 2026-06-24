@@ -1,0 +1,16 @@
+{
+  "name": "flickflauder-chat-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted chat backend for the flickflauder site. Holds the Anthropic API key and proxies a streaming conversation to Claude.",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.69.0",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.3"
+  }
+}

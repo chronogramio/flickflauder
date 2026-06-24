@@ -1,0 +1,94 @@
+# Chat/lead backend. Image is pulled from the GitLab registry; the
+# `gitlab-registry` pull secret and the `flickflauder-chat` secret (API key,
+# SMTP, Slack) are created by the deploy job in .gitlab-ci.yml.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: flickflauder-leads
+  namespace: flickflauder
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flickflauder-backend
+  namespace: flickflauder
+  labels:
+    app: flickflauder-backend
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # single RWO volume — avoid two pods mounting it at once
+  selector:
+    matchLabels:
+      app: flickflauder-backend
+  template:
+    metadata:
+      labels:
+        app: flickflauder-backend
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry
+      nodeSelector:
+        kubernetes.io/arch: arm64
+      containers:
+        - name: backend
+          image: registry.flickflauder.com/freelance/flickflauder/backend:latest-arm
+          ports:
+            - containerPort: 8787
+          env:
+            - name: PORT
+              value: "8787"
+            - name: ALLOWED_ORIGIN
+              value: "https://flickflauder.com"
+            - name: CHAT_MODEL
+              value: "claude-opus-4-8"
+            - name: LEADS_DIR
+              value: "/app/leads"
+          envFrom:
+            - secretRef:
+                name: flickflauder-chat
+          volumeMounts:
+            - name: leads
+              mountPath: /app/leads
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8787
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8787
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      volumes:
+        - name: leads
+          persistentVolumeClaim:
+            claimName: flickflauder-leads
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flickflauder-backend
+  namespace: flickflauder
+spec:
+  selector:
+    app: flickflauder-backend
+  ports:
+    - port: 80
+      targetPort: 8787

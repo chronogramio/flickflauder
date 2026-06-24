@@ -1,0 +1,148 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  REGISTRY: registry.flickflauder.com
+  BACKEND_IMAGE: $REGISTRY/freelance/flickflauder/backend
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+  K8S_NAMESPACE: flickflauder
+  NODE_VERSION: "22"
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+
+# ---------------------------------------------------------------------------
+# Frontend — static Astro build, deployed to Cloudflare Pages (like jpopartners)
+# ---------------------------------------------------------------------------
+build:frontend:
+  stage: build
+  image: node:${NODE_VERSION}-alpine
+  tags:
+    - kubernetes
+  script:
+    - npm ci --prefer-offline --no-audit
+    # Bake the backend URL into the static JS. Override via the
+    # PUBLIC_CHAT_API_URL CI/CD variable; defaults to the cluster ingress host.
+    - echo "PUBLIC_CHAT_API_URL=${PUBLIC_CHAT_API_URL:-https://chat.flickflauder.com}" > .env
+    - npm run build
+    - ls -lah dist/
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+  only:
+    - main
+
+deploy:frontend:
+  stage: deploy
+  image: node:${NODE_VERSION}-alpine
+  tags:
+    - kubernetes
+  dependencies:
+    - build:frontend
+  before_script:
+    - npm install -g wrangler
+  script:
+    # Requires CI/CD variables: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+    - wrangler pages deploy dist --project-name=${CLOUDFLARE_PROJECT_NAME:-flickflauder} --branch=main --commit-hash=$CI_COMMIT_SHORT_SHA
+  environment:
+    name: production-frontend
+    url: https://flickflauder.com
+  when: manual
+  only:
+    - main
+
+# ---------------------------------------------------------------------------
+# Backend — Node chat server, built with Kaniko, deployed to K3s (like radstaff)
+# ---------------------------------------------------------------------------
+.kaniko_auth: &kaniko_auth
+  - mkdir -p /kaniko/.docker
+  - |
+    cat > /kaniko/.docker/config.json <<JSON
+    {
+      "auths": {
+        "${CI_REGISTRY}": {
+          "auth": "$(echo -n ${CI_REGISTRY_USER}:${CI_JOB_TOKEN} | base64 -w 0)"
+        }
+      }
+    }
+    JSON
+
+build:backend:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  tags:
+    - arm64
+  before_script:
+    - *kaniko_auth
+  script:
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}/server"
+      --dockerfile "${CI_PROJECT_DIR}/server/Dockerfile"
+      --destination "${BACKEND_IMAGE}:${IMAGE_TAG}-arm"
+      --destination "${BACKEND_IMAGE}:latest-arm"
+      --customPlatform=linux/arm64
+      --cache=true
+      --cache-ttl=24h
+  only:
+    - main
+
+deploy:backend:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  tags:
+    - kubernetes
+  dependencies:
+    - build:backend
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+    - kubectl version --client
+  script:
+    - kubectl apply -f k8s/namespace.yaml
+
+    # Registry pull secret (scoped to this project's CI job token)
+    - |
+      kubectl create secret docker-registry gitlab-registry \
+        --docker-server=${CI_REGISTRY} \
+        --docker-username=${CI_REGISTRY_USER} \
+        --docker-password=${CI_JOB_TOKEN} \
+        --namespace=${K8S_NAMESPACE} \
+        --dry-run=client -o yaml | kubectl apply -f -
+
+    # Application secret built from CI/CD variables (set these in GitLab):
+    #   ANTHROPIC_API_KEY (required), SLACK_WEBHOOK_URL, LEAD_EMAIL_TO,
+    #   LEAD_EMAIL_FROM, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+    - |
+      kubectl create secret generic flickflauder-chat \
+        --from-literal=ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}" \
+        --from-literal=SLACK_WEBHOOK_URL="${SLACK_WEBHOOK_URL}" \
+        --from-literal=LEAD_EMAIL_TO="${LEAD_EMAIL_TO}" \
+        --from-literal=LEAD_EMAIL_FROM="${LEAD_EMAIL_FROM}" \
+        --from-literal=SMTP_HOST="${SMTP_HOST}" \
+        --from-literal=SMTP_PORT="${SMTP_PORT}" \
+        --from-literal=SMTP_USER="${SMTP_USER}" \
+        --from-literal=SMTP_PASS="${SMTP_PASS}" \
+        --namespace=${K8S_NAMESPACE} \
+        --dry-run=client -o yaml | kubectl apply -f -
+
+    - kubectl apply -f k8s/backend.yaml
+    - kubectl apply -f k8s/ingress.yaml
+
+    - kubectl set image deployment/flickflauder-backend backend=$BACKEND_IMAGE:$IMAGE_TAG-arm -n $K8S_NAMESPACE
+    - kubectl rollout status deployment/flickflauder-backend -n $K8S_NAMESPACE --timeout=5m
+    - kubectl get pods -n $K8S_NAMESPACE -l app=flickflauder-backend
+  environment:
+    name: production-backend
+    url: https://chat.flickflauder.com
+  when: manual
+  only:
+    - main
